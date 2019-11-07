@@ -27,7 +27,7 @@ void cadastrar_cliente(cliente **lista_clientes){
 
 	int i = inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,*lista_clientes);
 
-	printf("%d\n", &i);
+	puts(i);
 
 }
 
@@ -59,5 +59,16 @@ int inserir_cliente(char nome[],char cpf_usuario[], char data_nascimento[], char
 	}
 
 	return -1;
+
+}
+
+void lista_clientes(cliente *lista_clientes){
+
+	while(lista_clientes != NULL){
+		printf("%s \n", lista_clientes->nome);
+
+		lista_clientes = lista_clientes->prox;
+	}
+
 
 }
