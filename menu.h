@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <locale.h>
+
+#ifndef _WIN32
+	#include "getch.h" 
+#else
+	#include <conio.h>
+#endif 
+
+#define MAX_SIZE 30
+
+typedef struct cliente{
+	char nome[50];
+	char cpf_usuario[15];
+	char data_nascimento[20];
+	char endereco[30];
+	char bairro[30];
+	char cidade_estado[50];
+	char telefone[15];
+	struct cliente *prox;
+}cliente;
+
+typedef struct conta{
+	char cpf_conta[15];
+	char Agencia_bancaria[10];
+	char tipo_conta[10];
+	char numero_conta[15];
+	char conta_preferencial[15];
+	double saldo;
+	struct conta *prox;
+}conta;
+
+typedef struct venda{
+	char codigo_produto[10];
+	char cpf_cliente[14];
+	int quantidade_venda;
+	struct venda *prox;
+}venda;
+
+int menu_principal();
+
+int submenu1();
+
+int submenu2();
+
+int submenu3();
+
+int comparaString(char str1[], char str2[]);
+
+void pausa();
+
+void limpar();
+
