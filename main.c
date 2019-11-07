@@ -11,6 +11,9 @@ int main(){
 	
 	char op, subop;
 
+	cliente *lista_clientes;
+
+	lista_clientes = NULL;
 
 	op = menu_principal();
 
@@ -26,7 +29,8 @@ int main(){
 						/* PESQUISAR CLIENTE POR CPF */
 					case '1':
 					
-					
+						cadastrar_cliente(&lista_clientes);
+						system("PAUSE");
 
 					break;
 
