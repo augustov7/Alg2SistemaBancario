@@ -25,13 +25,13 @@ void cadastrar_cliente(cliente **lista_clientes){
 	printf("\nInforme o TELEFONE de Contato:");
 	scanf(" %[^\n]", telefone);
 
-	int i = inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,*lista_clientes);
+	int i = inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,lista_clientes);
 
-	puts(i);
+	printf("%d\n", i);
 
 }
 
-int inserir_cliente(char nome[],char cpf_usuario[], char data_nascimento[], char endereco[], char bairro[], char cidade_estado[], char telefone[], cliente *lista_clientes){
+int inserir_cliente(char nome[],char cpf_usuario[], char data_nascimento[], char endereco[], char bairro[], char cidade_estado[], char telefone[], cliente **lista_clientes){
 
 	cliente *novo_cliente = (cliente *) malloc(sizeof(cliente));
 	cliente *lista;
@@ -44,16 +44,18 @@ int inserir_cliente(char nome[],char cpf_usuario[], char data_nascimento[], char
 	strcpy(novo_cliente->cidade_estado,cidade_estado);
 	strcpy(novo_cliente->telefone,telefone);
 
-	lista = lista_clientes;
+	// REMOVER LISTA
+
+	lista = *lista_clientes;
 
 	if (lista == NULL)
 	{
-		lista_clientes = novo_cliente;
+		*lista_clientes = novo_cliente;
 		return 0;
 	}else{
 
 		novo_cliente->prox = lista;
-		lista = novo_cliente;
+		*lista_clientes = novo_cliente;
 		return 1;
 
 	}
@@ -62,13 +64,16 @@ int inserir_cliente(char nome[],char cpf_usuario[], char data_nascimento[], char
 
 }
 
-void lista_clientes(cliente *lista_clientes){
+void listar_clientes(cliente *lista_clientes){
 
-	while(lista_clientes != NULL){
-		printf("%s \n", lista_clientes->nome);
+	cliente *lst = lista_clientes;
 
-		lista_clientes = lista_clientes->prox;
+	while(lst != NULL){
+		printf(" %s \n", lst->nome);
+
+		lst = lst->prox;
 	}
 
+	puts("-- FIM --");
 
 }

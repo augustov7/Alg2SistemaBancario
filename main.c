@@ -3,7 +3,7 @@
 /* 
 CD C:\Users\Augusto\Desktop\Trab\Alg2SistemaBancario
 
-gcc *.c -o trab.exe -ansi -pedantic -Wall 
+gcc *.c -o trab.exe -pedantic -Wall 
 
 */
 
@@ -37,7 +37,8 @@ int main(){
 						/* PESQUISAR CLIENTE POR NOME */
 					case '2': 
 
-					
+						listar_clientes(lista_clientes);
+						system("PAUSE");
 
 					break;
 
