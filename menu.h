@@ -61,8 +61,12 @@ int inserir_cliente(char nome[],char cpf_usuario[], char data_nascimento[], char
 
 void listar_clientes(cliente *lista_clientes);
 
+void gravarCliente(cliente *lst_cliente);
+
 /* CONTA */
 
 void cadastrar_conta(conta **lista_contas);
 
 int inserir_conta(char cpf_conta[],char Agencia_bancaria[], char tipo_conta[], char numero_conta[], char conta_preferencial[], double saldo, conta *lista_contas);
+
+void listar_contas(conta *lista_contas);

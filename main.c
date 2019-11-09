@@ -12,8 +12,11 @@ int main(){
 	char op, subop;
 
 	cliente *lista_clientes;
+	conta *lista_contas;
+
 
 	lista_clientes = NULL;
+	lista_contas = NULL;
 
 	op = menu_principal();
 
@@ -29,23 +32,23 @@ int main(){
 						/* PESQUISAR CLIENTE POR CPF */
 					case '1':
 					
-						cadastrar_cliente(&lista_clientes);
-						system("PAUSE");
+					
 
 					break;
 
 						/* PESQUISAR CLIENTE POR NOME */
 					case '2': 
 
-						listar_clientes(lista_clientes);
-						system("PAUSE");
+					listar_clientes(lista_clientes);
+					system("PAUSE");
 
 					break;
 
 						/* CADASTRAR CLIENTE */
 					case '3':
 
-					
+					cadastrar_cliente(&lista_clientes);
+					system("PAUSE");
 
 					break;
 
@@ -74,14 +77,14 @@ int main(){
 					/* PESQUISAR CONTA PELO NUMERO DA CONTA */
 					case '2':		
 
-					
+					//listar_contas(lista_contas);
 
 					break;
 
 					/* CADASTRAR CONTA */
 					case '3':		
 
-					
+					//cadastrar_conta(&lista_contas);
 
 					break;
 					default:
@@ -131,6 +134,6 @@ int main(){
 
 
 	printf("\n");
-
+	gravarCliente(lista_clientes);
 	return 0;
 }

@@ -34,7 +34,6 @@ void cadastrar_cliente(cliente **lista_clientes){
 int inserir_cliente(char nome[],char cpf_usuario[], char data_nascimento[], char endereco[], char bairro[], char cidade_estado[], char telefone[], cliente **lista_clientes){
 
 	cliente *novo_cliente = (cliente *) malloc(sizeof(cliente));
-	cliente *lista;
 
 	strcpy(novo_cliente->nome,nome);
 	strcpy(novo_cliente->cpf_usuario,cpf_usuario);
@@ -44,17 +43,16 @@ int inserir_cliente(char nome[],char cpf_usuario[], char data_nascimento[], char
 	strcpy(novo_cliente->cidade_estado,cidade_estado);
 	strcpy(novo_cliente->telefone,telefone);
 
-	// REMOVER LISTA
+	novo_cliente->prox = NULL;
 
-	lista = *lista_clientes;
 
-	if (lista == NULL)
+	if (*lista_clientes == NULL)
 	{
 		*lista_clientes = novo_cliente;
 		return 0;
 	}else{
 
-		novo_cliente->prox = lista;
+		novo_cliente->prox = *lista_clientes;
 		*lista_clientes = novo_cliente;
 		return 1;
 
