@@ -16,7 +16,7 @@ void gravarCliente(cliente *lst_cliente){
 			fprintf(ptArquivo, "%s;", lst_cliente->endereco);
 			fprintf(ptArquivo, "%s;", lst_cliente->bairro);
 			fprintf(ptArquivo, "%s;", lst_cliente->cidade_estado);
-			fprintf(ptArquivo, "%s;", lst_cliente->telefone);
+			fprintf(ptArquivo, "%s;\n", lst_cliente->telefone);
 
 			lst_cliente = lst_cliente->prox;
 		}
@@ -41,7 +41,7 @@ void gravarConta(conta *lst_contas){
 			fprintf(ptArquivo, "%s;", lst_contas->tipo_conta);
 			fprintf(ptArquivo, "%s;", lst_contas->numero_conta);
 			fprintf(ptArquivo, "%s;", lst_contas->conta_preferencial);
-			fprintf(ptArquivo, "%s;", lst_contas->saldo);
+			fprintf(ptArquivo, "%lf;\n", lst_contas->saldo);
 
 			lst_contas = lst_contas->prox;
 		}
@@ -51,7 +51,7 @@ void gravarConta(conta *lst_contas){
 	fclose(ptArquivo);
 }
 
-void lerClientes(cliente **lst_cliente){
+void lerClientes(cliente **lst_clientes){
 
 	FILE *ptArquivo = fopen("cliente.csv", "r");
 
@@ -69,7 +69,7 @@ void lerClientes(cliente **lst_cliente){
 		char *cidade_estado;
 		char *telefone;
 
-		while(fgets(linha,210,ptArq) != NULL){
+		while(fgets(linha,210,ptArquivo) != NULL){
 			nome = strtok(linha,";");
 			cpf_usuario = strtok(NULL,";");
 			data_nascimento = strtok(NULL,";");
@@ -86,9 +86,9 @@ void lerClientes(cliente **lst_cliente){
 	fclose(ptArquivo);
 }
 
-void lerContas(cliente **lst_cliente){
+void lerContas(conta **lista_contas){
 
-	FILE *ptArquivo = fopen("cliente.csv", "r");
+	FILE *ptArquivo = fopen("Contas.csv", "r");
 
 	if (ptArquivo == NULL){
 		puts("Erro ao abrir arquivo");
@@ -101,15 +101,20 @@ void lerContas(cliente **lst_cliente){
 		char *tipo_conta;
 		char *numero_conta;
 		char *conta_preferencial;
-		char *saldo;
+		char *saldo_str;
+		double saldo;
 
-		while(fgets(linha,210,ptArq) != NULL){
+		while(fgets(linha,210,ptArquivo) != NULL){
 			cpf_conta = strtok(linha,";");
 			Agencia_bancaria = strtok(NULL,";");
 			tipo_conta = strtok(NULL,";");
 			numero_conta = strtok(NULL,";");
 			conta_preferencial = strtok(NULL,";");
-			saldo = strtok(NULL,";");
+			saldo_str = strtok(NULL,";");
+
+			saldo = atof(saldo_str);
+
+
 
 			inserir_conta(cpf_conta,Agencia_bancaria,tipo_conta,numero_conta,conta_preferencial,saldo,lista_contas);
 		}

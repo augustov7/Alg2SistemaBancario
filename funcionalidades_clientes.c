@@ -75,3 +75,68 @@ void listar_clientes(cliente *lista_clientes){
 	puts("-- FIM --");
 
 }
+
+void listar_cliente_cpf(cliente *lst_clientes){
+
+	cliente *lst;
+
+	lst = lst_clientes;
+
+	char cpf_usuario[15];
+	printf("Digite o CPF do Cliente: ");
+	scanf(" %s", cpf_usuario);
+
+	while(lst != NULL){
+		if (comparaString(cpf_usuario,lst->cpf_usuario) == 1){
+			
+			puts("---------------- CLIENTES -----------------");
+			printf(" NOME: %s \n", lst->nome);
+			printf(" CPF: %s \n", lst->cpf_usuario);
+			printf(" DATA DE NASCIMENTO: %s \n", lst->data_nascimento);
+			printf(" ENDERECO: %s \n", lst->endereco);
+			printf(" BAIRRO: %s \n", lst->bairro);
+			printf(" CIDADE/ESTADO: %s \n", lst->cidade_estado);
+			printf(" TELEFONE: %s \n", lst->telefone);
+
+			puts("-------------------------------------------");
+
+		}
+
+		lst = lst->prox;
+	}
+
+	system("PAUSE");
+
+}
+
+void listar_cliente_nome(cliente *lst_clientes){
+
+	cliente *lst;
+
+	lst = lst_clientes;
+
+	char nome[50];
+	printf("Digite o NOME do Cliente: ");
+	scanf(" %s", nome);
+
+	while(lst != NULL){
+		if (comparaString(nome,lst->nome) == 0){
+			
+			puts("---------------- CLIENTES -----------------");
+			printf(" NOME: %s \n", lst->nome);
+			printf(" CPF: %s \n", lst->cpf_usuario);
+			printf(" DATA DE NASCIMENTO: %s \n", lst->data_nascimento);
+			printf(" ENDERECO: %s \n", lst->endereco);
+			printf(" BAIRRO: %s \n", lst->bairro);
+			printf(" CIDADE/ESTADO: %s \n", lst->cidade_estado);
+			printf(" TELEFONE: %s \n", lst->telefone);
+
+			puts("-------------------------------------------");
+		}
+
+		lst = lst->prox;
+	}
+
+	system("PAUSE");
+
+}
