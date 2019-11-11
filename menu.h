@@ -69,6 +69,8 @@ void listar_cliente_cpf(cliente *lst_clientes);
 
 void listar_cliente_nome(cliente *lst_clientes);
 
+char* nome_cliente_cpf(char *cpf_usuario, cliente *lst_clientes);
+
 /* CONTA */
 
 void cadastrar_conta(conta **lista_contas);
@@ -78,7 +80,7 @@ int inserir_conta(char cpf_conta[],char Agencia_bancaria[], char tipo_conta[], c
 
 void pesquisar_numero_contas(conta *lista_contas);
 
-void pesquisar_cpf_contas(conta *lista_contas);
+void pesquisar_cpf_contas(conta *lista_contas,cliente *lst_clientes);
 
 void lerContas(conta **lista_contas);
 

@@ -105,6 +105,7 @@ void lerContas(conta **lista_contas){
 		double saldo;
 
 		while(fgets(linha,210,ptArquivo) != NULL){
+
 			cpf_conta = strtok(linha,";");
 			Agencia_bancaria = strtok(NULL,";");
 			tipo_conta = strtok(NULL,";");
@@ -113,8 +114,6 @@ void lerContas(conta **lista_contas){
 			saldo_str = strtok(NULL,";");
 
 			saldo = atof(saldo_str);
-
-
 
 			inserir_conta(cpf_conta,Agencia_bancaria,tipo_conta,numero_conta,conta_preferencial,saldo,lista_contas);
 		}

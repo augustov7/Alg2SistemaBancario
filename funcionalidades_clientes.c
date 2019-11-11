@@ -140,3 +140,21 @@ void listar_cliente_nome(cliente *lst_clientes){
 	system("PAUSE");
 
 }
+
+char* nome_cliente_cpf(char *cpf_usuario, cliente *lst_clientes){
+
+	cliente *lst;
+
+	lst = lst_clientes;
+
+	while(lst != NULL){
+		if (comparaString(cpf_usuario,lst->cpf_usuario) == 1){
+			
+			return lst->nome;
+		}
+
+		lst = lst->prox;
+	}
+
+	return NULL;
+}

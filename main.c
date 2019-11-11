@@ -3,7 +3,6 @@
 /* 
 CD C:\Users\Augusto\Desktop\Trab\Alg2SistemaBancario
 
-gcc *.c -o trab.exe -pedantic -Wall 
 
 */
 
@@ -72,7 +71,7 @@ int main(){
 					/* PESQUISAR CONTA POR CPF DO CLIENTE */
 					case '1':
 
-					pesquisar_cpf_contas(lst_contas);
+					pesquisar_cpf_contas(lst_contas,lst_clientes);
 
 					break;
 

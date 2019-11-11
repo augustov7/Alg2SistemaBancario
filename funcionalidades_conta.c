@@ -90,7 +90,7 @@ void pesquisar_numero_contas(conta *lista_contas){
 
 }
 
-void pesquisar_cpf_contas(conta *lista_contas){
+void pesquisar_cpf_contas(conta *lst_contas, cliente *lst_clientes){
 
 	char cpf_conta[15];
 	printf("Digite o CPF: ");
@@ -98,7 +98,7 @@ void pesquisar_cpf_contas(conta *lista_contas){
 
 	conta *lst;
 
-	lst = lista_contas;
+	lst = lst_contas;
 
 	while(lst != NULL){
 		
@@ -106,6 +106,7 @@ void pesquisar_cpf_contas(conta *lista_contas){
 			puts("---------------- CONTA -----------------");
 
 			printf(" NUMERO %s \n", lst->numero_conta);
+			printf("NOME: %s\n", nome_cliente_cpf(cpf_conta,lst_clientes));
 			printf(" CPF: %s \n", lst->cpf_conta);
 			printf(" AGENCIA: %s \n", lst->Agencia_bancaria);
 			printf(" TIPO: %s \n", lst->tipo_conta);
