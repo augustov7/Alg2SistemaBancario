@@ -22,9 +22,18 @@ void cadastrar_conta(conta **lista_contas){
 	printf("\nInforme o SALDO:");
 	scanf(" %lf",&saldo);
 
-	inserir_conta(cpf_conta,Agencia_bancaria,tipo_conta,numero_conta,conta_preferencial,saldo,lista_contas);
+	if(nome_cliente_cpf(lista_contas,lst_clientes)!= NULL){
+
+		inserir_conta(cpf_conta,Agencia_bancaria,tipo_conta,numero_conta,conta_preferencial,saldo,lista_contas);
+
+	}else{
+
+		printf(" CPF NÃO ENCONTRADO");
+
+	}
 
 }
+
 
 int inserir_conta(char cpf_conta[],char Agencia_bancaria[], char tipo_conta[], char numero_conta[], char conta_preferencial[], double saldo, conta **lista_contas){
 
@@ -122,5 +131,4 @@ void pesquisar_cpf_contas(conta *lst_contas, cliente *lst_clientes){
 	}
 
 	system("PAUSE");
-
 }
