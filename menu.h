@@ -32,12 +32,14 @@ typedef struct conta{
 	struct conta *prox;
 }conta;
 
-typedef struct venda{
-	char codigo_produto[10];
-	char cpf_cliente[14];
-	int quantidade_venda;
-	struct venda *prox;
-}venda;
+typedef struct fila_atendimento{
+	int senha[5];
+	char data[8];
+	char preferencial;
+	char tipo_atendimento;
+	struct fila_atendimento *ant;
+	struct fila_atendimento *prox;
+}fila_atendimento;
 
 int menu_principal();
 
