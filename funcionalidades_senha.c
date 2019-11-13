@@ -81,6 +81,8 @@ void inserir_senha(fila_atendimento *lst_atendimento, fila_atendimento *novo_ate
 	
 	fila_atendimento *percorre_lista;
 
+	percorre_lista = lst_atendimento;
+
 	if (lst_atendimento == NULL){
 		lst_atendimento = novo_atendimento;
 	}else{
