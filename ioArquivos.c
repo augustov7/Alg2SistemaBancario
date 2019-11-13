@@ -40,7 +40,7 @@ void gravarConta(conta *lst_contas){
 			fprintf(ptArquivo, "%s;", lst_contas->Agencia_bancaria);
 			fprintf(ptArquivo, "%s;", lst_contas->tipo_conta);
 			fprintf(ptArquivo, "%s;", lst_contas->numero_conta);
-			fprintf(ptArquivo, "%s;", lst_contas->conta_preferencial);
+			fprintf(ptArquivo, "%c;", lst_contas->conta_preferencial);
 			fprintf(ptArquivo, "%lf;\n", lst_contas->saldo);
 
 			lst_contas = lst_contas->prox;
@@ -104,6 +104,7 @@ void lerContas(conta **lista_contas){
 		char *saldo_str;
 		double saldo;
 
+
 		while(fgets(linha,210,ptArquivo) != NULL){
 
 			cpf_conta = strtok(linha,";");
@@ -115,7 +116,7 @@ void lerContas(conta **lista_contas){
 
 			saldo = atof(saldo_str);
 
-			inserir_conta(cpf_conta,Agencia_bancaria,tipo_conta,numero_conta,conta_preferencial,saldo,lista_contas);
+			inserir_conta(cpf_conta,Agencia_bancaria,tipo_conta,numero_conta,*conta_preferencial,saldo,lista_contas);
 		}
 		
 	}

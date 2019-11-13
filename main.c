@@ -3,7 +3,7 @@
 /* 
 CD C:\Users\Augusto\Desktop\Trab\Alg2SistemaBancario
 
-
+gcc *.c -o trab.exe -pedantic -Wall
 */
 
 int main(){
@@ -12,10 +12,15 @@ int main(){
 
 	cliente *lst_clientes;
 	conta *lst_contas;
+	fila_atendimento *lst_mesa;
+	fila_atendimento *lst_caixa;
 
 
 	lst_clientes = NULL;
 	lst_contas = NULL;
+	lst_mesa = NULL;
+	lst_caixa = NULL;	
+
 
 	lerClientes(&lst_clientes);
 	lerContas(&lst_contas);
@@ -104,7 +109,7 @@ int main(){
 					/* REGISTRAR SENHA PARA CLIENTE */
 					case '1':
 					
-
+						registra_senha(lst_caixa,lst_mesa,lst_contas);
 
 					break;
 
