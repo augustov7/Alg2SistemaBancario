@@ -20,17 +20,16 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 	novo_atendimento->preferencial = 'N';
 
 	printf("\nPossui CONTA NESSE BANCO ?  S OU N");
-	//scanf("%s",possui_conta);
-	possui_conta = getch();
-	possui_conta = getch();
+	scanf(" %c", &possui_conta);
+	
 
 
 	if (possui_conta == 's' || possui_conta == 'S'){
 
-		printf("\nInforme o CPF:");
+		printf("\nInforme o CPF: ");
 		scanf(" %[^\n]",cpf_conta);
 
-		printf("\nInforme o NUMERO DA CONTA");
+		printf("\nInforme o NUMERO DA CONTA: ");
 		scanf(" %[^\n]",numero_conta);	
 
 		novo_atendimento->preferencial = pesquisar_cpf_preferencial(lst_contas,cpf_conta,numero_conta);
@@ -42,9 +41,7 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 		}else{
 
 			printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C:");
-			//scanf(" %c",atendimento);	
-
-			atendimento = getch();
+			scanf(" %c", &atendimento);	
 
 			if(atendimento == 'm' || atendimento == 'M'){
 
@@ -65,8 +62,7 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 	}else{
 		
 		printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C :");
-		//scanf(" %[^\n]",numero_conta);
-		atendimento = getch();
+		scanf(" %[^\n]",&atendimento);
 
 		if(atendimento == 'm' || atendimento == 'M'){
 
@@ -137,6 +133,16 @@ void inserir_senha(fila_atendimento *lst_atendimento, fila_atendimento *novo_ate
 
 			}
 		}
+	}
+
+}
+
+
+void compara_datas_senhas(tm *antiga, tm *nova){
+
+	if (nova)
+	{
+		/* code */
 	}
 
 }

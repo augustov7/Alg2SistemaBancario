@@ -19,9 +19,8 @@ void cadastrar_conta(conta **lista_contas){
 	scanf(" %[^\n]",numero_conta);
 	printf("\nInforme o CONTA PREFERENCIAL:");
 	
-	//scanf("%c",conta_preferencial);
-	conta_preferencial = getch();
-	conta_preferencial = getch();
+	scanf(" %c",&conta_preferencial);
+	
 
 	printf("\nInforme o SALDO:");
 	scanf(" %lf",&saldo);
