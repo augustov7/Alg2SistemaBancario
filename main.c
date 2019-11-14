@@ -77,6 +77,7 @@ int main(){
 					case '1':
 
 					pesquisar_cpf_contas(lst_contas,lst_clientes);
+					system("PAUSE");
 
 					break;
 

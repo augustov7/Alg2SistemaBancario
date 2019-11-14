@@ -1,6 +1,7 @@
 #include "menu.h"
 
 void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, conta *lst_contas){
+	
 	char possui_conta;
 	char cpf_conta[15];
 	char atendimento;
@@ -19,7 +20,10 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 	novo_atendimento->preferencial = 'N';
 
 	printf("\nPossui CONTA NESSE BANCO ?  S OU N");
-	scanf("%c",possui_conta);
+	//scanf("%s",possui_conta);
+	possui_conta = getch();
+	possui_conta = getch();
+
 
 	if (possui_conta == 's' || possui_conta == 'S'){
 
@@ -31,12 +35,16 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 
 		novo_atendimento->preferencial = pesquisar_cpf_preferencial(lst_contas,cpf_conta,numero_conta);
 
+		printf("%c", novo_atendimento->preferencial);
+
 		if (novo_atendimento == NULL){
 			printf("\n conta invalida");
 		}else{
 
 			printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C:");
-			scanf(" %[^\n]",atendimento);	
+			//scanf(" %c",atendimento);	
+
+			atendimento = getch();
 
 			if(atendimento == 'm' || atendimento == 'M'){
 
@@ -56,8 +64,9 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 		}
 	}else{
 		
-		printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C:");
-		scanf(" %[^\n]",numero_conta);
+		printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C :");
+		//scanf(" %[^\n]",numero_conta);
+		atendimento = getch();
 
 		if(atendimento == 'm' || atendimento == 'M'){
 
@@ -65,14 +74,17 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 				//inserir_senha(lst_mesa,novo_atendimento);
 
 		}else{
-
+			if (atendimento == 'c' || atendimento == 'C')
+			{
+				/* code */
+			}
 			puts("inserindo senha CAIXA sem conta");
 				//inserir_senha(lst_caixa,novo_atendimento);
 			
 		}
 	}
 
-	
+	system("PAUSE");
 
 	
 }
