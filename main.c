@@ -14,6 +14,7 @@ int main(){
 	conta *lst_contas;
 	fila_atendimento *lst_mesa;
 	fila_atendimento *lst_caixa;
+	fila_atendimento *lst;
 
 
 	lst_clientes = NULL;
@@ -24,6 +25,7 @@ int main(){
 
 	lerClientes(&lst_clientes);
 	lerContas(&lst_contas);
+	lerAtendimentos(&lst_caixa,&lst_mesa);
 
 	op = menu_principal();
 
@@ -110,7 +112,7 @@ int main(){
 					/* REGISTRAR SENHA PARA CLIENTE */
 					case '1':
 					
-						registra_senha(lst_caixa,lst_mesa,lst_contas);
+					registra_senha(&lst_caixa,&lst_mesa,lst_contas);
 
 					break;
 
@@ -124,8 +126,27 @@ int main(){
 					/* EMITIR SENHA DE CLIENTE PARA A MESA */
 					case '3':
 
+					
 
 					break;
+
+					case '4':
+
+					lst = lst_caixa;
+
+					while(lst != NULL){				
+						
+						printf("%d\n", lst->senha );
+						printf("%c\n", lst->preferencial );
+						printf("\n %d/%d/%d - %c \n", lst->data.dia,lst->data.mes+1,lst->data.ano+1900, lst->preferencial);
+
+						lst = lst->prox;
+					}
+
+					
+					system("pause");
+					break;
+
 					default:
 					break;
 				}
@@ -143,6 +164,7 @@ int main(){
 	printf("\n");
 	gravarCliente(lst_clientes);
 	gravarConta(lst_contas);
+	salvarFila(lst_caixa);
 	
 	return 0;
 }

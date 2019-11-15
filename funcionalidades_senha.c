@@ -1,13 +1,22 @@
 #include "menu.h"
 
-void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, conta *lst_contas){
+void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, conta *lst_contas){
 	
 	char possui_conta;
 	char cpf_conta[15];
 	char atendimento;
 	char numero_conta[15];
+	struct tm *data_hora_atual;     
+	time_t segundos;
 
 	fila_atendimento *novo_atendimento = (fila_atendimento*) malloc(sizeof(fila_atendimento));
+
+	time(&segundos);     
+	data_hora_atual = localtime(&segundos);
+
+	novo_atendimento->data.dia = data_hora_atual->tm_mday;
+	novo_atendimento->data.mes = data_hora_atual->tm_mon+1;
+	novo_atendimento->data.ano = data_hora_atual->tm_year+1900;
 
 	novo_atendimento->ant = NULL;
 	novo_atendimento->prox = NULL;
@@ -40,7 +49,8 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 			printf("\n conta invalida");
 		}else{
 
-			printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C:");
+			printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C: \n");
+
 			scanf(" %c", &atendimento);	
 
 			if(atendimento == 'm' || atendimento == 'M'){
@@ -67,7 +77,15 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 		if(atendimento == 'm' || atendimento == 'M'){
 
 			puts("inserindo senha mesa sem conta");
-				//inserir_senha(lst_mesa,novo_atendimento);
+			
+			/*struct tm *data_hora_atual;     
+			time_t segundos;
+			time(&segundos);     
+			data_hora_atual = localtime(&segundos);  
+
+			printf("\n %d/%d/%d - %c \n", data_hora_atual->tm_mday,data_hora_atual->tm_mon+1,data_hora_atual->tm_year+1900, novo_atendimento->preferencial);
+			*/
+			inserir_senha(lst_mesa,novo_atendimento);
 
 		}else{
 			if (atendimento == 'c' || atendimento == 'C')
@@ -75,8 +93,11 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 				/* code */
 			}
 			puts("inserindo senha CAIXA sem conta");
-				//inserir_senha(lst_caixa,novo_atendimento);
+
+			//printf("\n DATA: %d/%d/%d \n SENHA: %c-%d \n", data_hora_atual->tm_mday,data_hora_atual->tm_mon+1,data_hora_atual->tm_year+1900, novo_atendimento->preferencial,novo_atendimento->senha);
+
 			
+			inserir_senha(lst_caixa,novo_atendimento);
 		}
 	}
 
@@ -85,24 +106,36 @@ void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, con
 	
 }
 
-void inserir_senha(fila_atendimento *lst_atendimento, fila_atendimento *novo_atendimento){
+void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento){
+	
 	
 	fila_atendimento *percorre_lista;
 
-	percorre_lista = lst_atendimento;
+	percorre_lista = *lst_atendimento;
 
-	if (lst_atendimento == NULL){
-		lst_atendimento = novo_atendimento;
+
+
+	if (*lst_atendimento == NULL){
+		
+		*lst_atendimento = novo_atendimento;
+		puts("primeira posição");
+
 	}else{
 
 		// N DE NÃO PREFERENCIAL
 		if(novo_atendimento->preferencial == 'n' || novo_atendimento->preferencial == 'N'){
 			
-			while(percorre_lista->prox != NULL){
+			puts("teste 01");
+
+			while(percorre_lista->prox != NULL){				
 				percorre_lista = percorre_lista->prox;
 			}
 
+			novo_atendimento->senha += percorre_lista->senha;
+			printf("%d\n", novo_atendimento->senha );
 			percorre_lista->prox = novo_atendimento;
+			puts("Segunda posição");
+			system("pause");
 
 		}else{
 			/* ENTRARA NESSE ELSE QUANDO O NOVO ATENDIMENTO FOR ATENDIMENTO PREFERENCIAL*/
@@ -112,12 +145,14 @@ void inserir_senha(fila_atendimento *lst_atendimento, fila_atendimento *novo_ate
 				
 				novo_atendimento->prox = percorre_lista;
 				percorre_lista =novo_atendimento;
+
+				
 			}else{
 				while((percorre_lista->preferencial == 'p' || percorre_lista->preferencial == 'P' )&& percorre_lista->prox != NULL )
 					percorre_lista = percorre_lista->prox;
-				
+
 				if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
-					
+
 					/* INSERE NO FINAL DOS PREFERENCIAIS */
 
 					novo_atendimento->prox = percorre_lista;
@@ -137,12 +172,15 @@ void inserir_senha(fila_atendimento *lst_atendimento, fila_atendimento *novo_ate
 
 }
 
-
-void compara_datas_senhas(tm *antiga, tm *nova){
-
-	if (nova)
-	{
-		/* code */
-	}
-
+int compara_data(data_senha data01, data_senha data02){
+	
+	if(data01.dia == data02.dia){
+		if(data01.mes == data02.mes){
+			if(data01.ano == data02.ano){
+				return 1;
+			}
+		}
+	}	
+	
+	return 0;
 }

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <time.h>
 
 #ifndef _WIN32
 	#include "getch.h" 
@@ -27,18 +28,27 @@ typedef struct conta{
 	char Agencia_bancaria[10];
 	char tipo_conta[10];
 	char numero_conta[15];
-	char conta_preferencial;/* P = PREFERENCIAL   N = NÃO PREFERENCIAL*/
+	char conta_preferencial;/* S = PREFERENCIAL   N = NÃO PREFERENCIAL S/N*/
 	double saldo;
 	struct conta *prox;
 }conta;
 
+typedef struct data_senha{
+	int dia;
+	int mes;
+	int ano;
+}data_senha;
+
 typedef struct fila_atendimento{
 	int senha;
-	char data[8];
-	char preferencial;
+	char preferencial;/* SE É PREFERENCIAL S/N */
+	struct data_senha data; 
+	char tipo_fila; /* MESA OU CAIXA*/
 	struct fila_atendimento *ant;
 	struct fila_atendimento *prox;
 }fila_atendimento;
+
+
 
 int menu_principal();
 
@@ -91,6 +101,10 @@ char pesquisar_cpf_preferencial(conta *lst_contas, char cpf_conta[], char numero
 
 /*FILA DE ATENDIMENTO */
 
-void registra_senha(fila_atendimento *lst_caixa, fila_atendimento *lst_mesa, conta *lst_contas);
+void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, conta *lst_contas);
 
-void inserir_senha(fila_atendimento *lst_atendimento, fila_atendimento *novo_atendimento);
+void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento);
+
+int salvarFila(fila_atendimento *fila); 
+
+void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa);

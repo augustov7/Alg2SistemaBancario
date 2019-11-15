@@ -123,3 +123,88 @@ void lerContas(conta **lista_contas){
 
 	fclose(ptArquivo);
 }
+
+int salvarFila(fila_atendimento *fila){
+
+	fila_atendimento *lst;
+	FILE *ptArq;
+
+	lst = fila;
+
+	ptArq = fopen("fila.csv", "w");
+
+	if(ptArq == NULL){
+		printf("erro");
+		return 0;
+	}
+	while(lst != NULL){
+
+		fprintf(ptArq, "%d;", lst->senha);
+		fprintf(ptArq, "%d;", lst->data.dia);
+		fprintf(ptArq, "%d;", lst->data.mes);
+		fprintf(ptArq, "%d;", lst->data.ano);        
+		fprintf(ptArq, "%c;", lst->preferencial);
+		fprintf(ptArq, "%c;\n", lst->tipo_fila);
+
+		lst = lst->prox;
+	}
+	fclose(ptArq);
+	return 1;
+}
+
+void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
+
+	FILE *ptArquivo = fopen("fila.csv", "r");
+
+	if (ptArquivo == NULL){
+		puts("Erro ao abrir arquivo");
+	}else{
+
+		char linha[210];
+
+		char *senhaStr;
+		char *diaStr;
+		char *mesStr;
+		char *anoStr;
+
+
+
+				
+		fila_atendimento *novo_atendimento = (fila_atendimento*) malloc(sizeof(fila_atendimento));
+
+
+		while(fgets(linha,210,ptArquivo) != NULL){
+
+			puts("--");
+			
+			senhaStr = strtok(linha,";");
+			diaStr = strtok(NULL,";");
+			mesStr = strtok(NULL,";");
+			anoStr = strtok(NULL,";");
+			novo_atendimento->preferencial = strtok(NULL,";");
+			novo_atendimento->tipo_fila = strtok(NULL,";");
+
+			novo_atendimento->senha = atoi(senhaStr);
+			novo_atendimento->data.dia = atoi(diaStr);
+			novo_atendimento->data.mes = atoi(mesStr);
+			novo_atendimento->data.ano = atoi(anoStr);
+
+
+			if (novo_atendimento->tipo_fila == 'c' || novo_atendimento->tipo_fila == 'C' ){
+
+				inserir_senha(lst_caixa,novo_atendimento);
+
+			}else{
+
+				inserir_senha(lst_mesa,novo_atendimento);
+
+			}
+
+			
+		}
+		
+	}
+	system("pause");
+
+	fclose(ptArquivo);
+}
