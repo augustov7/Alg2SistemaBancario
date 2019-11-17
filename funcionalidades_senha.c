@@ -14,17 +14,15 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 	time(&segundos);     
 	data_hora_atual = localtime(&segundos);
 
+	/* SETANDO VALORES DENTRO DE UM NOVO ATENDIMENTO*/
+
 	novo_atendimento->data.dia = data_hora_atual->tm_mday;
 	novo_atendimento->data.mes = data_hora_atual->tm_mon+1;
 	novo_atendimento->data.ano = data_hora_atual->tm_year+1900;
-
 	novo_atendimento->ant = NULL;
 	novo_atendimento->prox = NULL;
-
 	novo_atendimento->senha = 1;
 
-	//strcpy(novo_atendimento->data,'01');
-	//novo_atendimento->data = '1';
 
 	novo_atendimento->preferencial = 'N';
 
@@ -41,9 +39,10 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 		printf("\nInforme o NUMERO DA CONTA: ");
 		scanf(" %[^\n]",numero_conta);	
 
+		/* RETORNA SE A CONTA É PREFERENCIAL */
 		novo_atendimento->preferencial = pesquisar_cpf_preferencial(lst_contas,cpf_conta,numero_conta);
 
-		printf("%c", novo_atendimento->preferencial);
+		//printf("%c", novo_atendimento->preferencial);
 
 		if (novo_atendimento == NULL){
 			printf("\n conta invalida");
@@ -56,16 +55,21 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 			if(atendimento == 'm' || atendimento == 'M'){
 
 				puts("inserindo senha mesa");
-				printf("%c\n", atendimento);
-				system("pause");
-				//inserir_senha(lst_mesa,novo_atendimento);
+
+				novo_atendimento->tipo_fila = atendimento;
+				inserir_senha(lst_mesa,novo_atendimento);
 
 			}else{
 
-				puts("inserindo senha CAIXA");
-				printf("%c\n", atendimento);
-				system("pause");
-				//inserir_senha(lst_caixa,novo_atendimento);
+				if(atendimento == 'c' || atendimento == 'C'){
+					puts("inserindo senha CAIXA");				
+					novo_atendimento->tipo_fila = atendimento;
+
+					printf("preferencial: %c\n", novo_atendimento->preferencial);
+
+					inserir_senha(lst_caixa,novo_atendimento);
+					system("pause");
+				}
 
 			}
 		}
@@ -77,27 +81,19 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 		if(atendimento == 'm' || atendimento == 'M'){
 
 			puts("inserindo senha mesa sem conta");
-			
-			/*struct tm *data_hora_atual;     
-			time_t segundos;
-			time(&segundos);     
-			data_hora_atual = localtime(&segundos);  
-
-			printf("\n %d/%d/%d - %c \n", data_hora_atual->tm_mday,data_hora_atual->tm_mon+1,data_hora_atual->tm_year+1900, novo_atendimento->preferencial);
-			*/
 			inserir_senha(lst_mesa,novo_atendimento);
 
 		}else{
-			if (atendimento == 'c' || atendimento == 'C')
-			{
-				/* code */
+			if (atendimento == 'c' || atendimento == 'C'){
+				
+				
+				novo_atendimento->tipo_fila = 'C';
+
+				puts("inserindo senha CAIXA sem conta");
+
+				inserir_senha(lst_caixa,novo_atendimento);
 			}
-			puts("inserindo senha CAIXA sem conta");
-
-			//printf("\n DATA: %d/%d/%d \n SENHA: %c-%d \n", data_hora_atual->tm_mday,data_hora_atual->tm_mon+1,data_hora_atual->tm_year+1900, novo_atendimento->preferencial,novo_atendimento->senha);
-
 			
-			inserir_senha(lst_caixa,novo_atendimento);
 		}
 	}
 
@@ -117,6 +113,7 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 
 	if (*lst_atendimento == NULL){
 		
+		novo_atendimento->senha=1;
 		*lst_atendimento = novo_atendimento;
 		puts("primeira posição");
 
@@ -125,17 +122,18 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 		// N DE NÃO PREFERENCIAL
 		if(novo_atendimento->preferencial == 'n' || novo_atendimento->preferencial == 'N'){
 			
-			puts("teste 01");
-
 			while(percorre_lista->prox != NULL){				
+				
 				percorre_lista = percorre_lista->prox;
+
 			}
 
-			novo_atendimento->senha += percorre_lista->senha;
-			printf("%d\n", novo_atendimento->senha );
+			if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
+				novo_atendimento->senha = percorre_lista->senha + 1;
+			}
+			
 			percorre_lista->prox = novo_atendimento;
-			puts("Segunda posição");
-			system("pause");
+			novo_atendimento->ant = percorre_lista;
 
 		}else{
 			/* ENTRARA NESSE ELSE QUANDO O NOVO ATENDIMENTO FOR ATENDIMENTO PREFERENCIAL*/
@@ -143,12 +141,14 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 			/* EU VERIFICO SE O PRIMEIRO ATENDIMENTO É PREFERENCIAL */
 			if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
 				
+				puts("não preferencial no primeiro");
 				novo_atendimento->prox = percorre_lista;
-				percorre_lista =novo_atendimento;
+				percorre_lista->ant = novo_atendimento;
+				*lst_atendimento = novo_atendimento;
 
 				
 			}else{
-				while((percorre_lista->preferencial == 'p' || percorre_lista->preferencial == 'P' )&& percorre_lista->prox != NULL )
+				while((percorre_lista->preferencial == 's' || percorre_lista->preferencial == 'S' )&& percorre_lista->prox != NULL )
 					percorre_lista = percorre_lista->prox;
 
 				if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
@@ -157,12 +157,16 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 
 					novo_atendimento->prox = percorre_lista;
 					percorre_lista->ant->prox = novo_atendimento;
+					novo_atendimento->ant = percorre_lista->ant;
+					percorre_lista->ant = novo_atendimento;
+
+					novo_atendimento->senha = novo_atendimento->ant->senha + 1;
 
 				}else{
 
-					/* CAIR AQUI QUANDO TODOS OS ATENDIMENTOS FOREM PREFERENCIAIS */
-
+					novo_atendimento->ant = percorre_lista;
 					percorre_lista->prox = novo_atendimento;
+					novo_atendimento->senha = percorre_lista->senha + 1;
 
 				}
 

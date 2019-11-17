@@ -25,7 +25,7 @@ int main(){
 
 	lerClientes(&lst_clientes);
 	lerContas(&lst_contas);
-	lerAtendimentos(&lst_caixa,&lst_mesa);
+	//lerAtendimentos(&lst_caixa,&lst_mesa);
 
 	op = menu_principal();
 
@@ -136,11 +136,12 @@ int main(){
 
 					while(lst != NULL){				
 						
-						printf("%d\n", lst->senha );
-						printf("%c\n", lst->preferencial );
-						printf("\n %d/%d/%d - %c \n", lst->data.dia,lst->data.mes+1,lst->data.ano+1900, lst->preferencial);
+						printf("\n %d/%d/%d -  ", lst->data.dia,lst->data.mes,lst->data.ano);
+
+						printf("%c - %d ", lst->preferencial, lst->senha);						
 
 						lst = lst->prox;
+						system("pause");
 					}
 
 					
