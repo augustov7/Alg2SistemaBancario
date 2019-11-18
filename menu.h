@@ -108,3 +108,7 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 int salvarFila(fila_atendimento *fila); 
 
 void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa);
+
+void retirar_senha(fila_atendimento **lst);
+
+int compara_data(data_senha data01, data_senha data02);

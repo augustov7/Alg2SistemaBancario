@@ -25,7 +25,7 @@ int main(){
 
 	lerClientes(&lst_clientes);
 	lerContas(&lst_contas);
-	//lerAtendimentos(&lst_caixa,&lst_mesa);
+	lerAtendimentos(&lst_caixa,&lst_mesa);
 
 	op = menu_principal();
 
@@ -119,14 +119,14 @@ int main(){
 					/* EMITIR SENHA DE CLIENTE PARA O CAIXA */
 					case '2':
 					
-
+					retirar_senha(&lst_caixa);
 
 					break;
 
 					/* EMITIR SENHA DE CLIENTE PARA A MESA */
 					case '3':
 
-					
+					retirar_senha(&lst_mesa);
 
 					break;
 
@@ -166,6 +166,7 @@ int main(){
 	gravarCliente(lst_clientes);
 	gravarConta(lst_contas);
 	salvarFila(lst_caixa);
+	salvarFila(lst_mesa);
 	
 	return 0;
 }

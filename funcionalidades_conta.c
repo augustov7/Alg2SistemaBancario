@@ -148,7 +148,10 @@ char pesquisar_cpf_preferencial(conta *lst_contas, char cpf_conta[], char numero
 
 	}
 
-	return 'N';
+	
+	return 'R';	
+	
+	
 }
 
 

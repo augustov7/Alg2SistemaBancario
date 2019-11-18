@@ -131,7 +131,7 @@ int salvarFila(fila_atendimento *fila){
 
 	lst = fila;
 
-	ptArq = fopen("fila.csv", "w");
+	ptArq = fopen("fila.csv", "a");
 
 	if(ptArq == NULL){
 		printf("erro");
@@ -167,57 +167,58 @@ void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
 		char *preferencial;
 		char *tipo_fila;
 
-		puts("test 01");
-
-		fila_atendimento *novo_atendimento = (fila_atendimento*) malloc(sizeof(fila_atendimento));
-
-
 		while(fgets(linha,110,ptArquivo) != NULL){
+		
+			fila_atendimento *novo_atendimento = (fila_atendimento*) malloc(sizeof(fila_atendimento));
 
-			puts("--");
-			
-
-			diaStr = strtok(NULL,";");
+			diaStr = strtok(linha,";");
 			mesStr = strtok(NULL,";");
 			anoStr = strtok(NULL,";");
 			preferencial =  strtok(NULL,";");
 			tipo_fila = strtok(NULL,";");
 
-
-			puts("test 02");
+			
 			novo_atendimento->senha = 1;
+
+/*
+			novo_atendimento->data.dia = 17;
+			novo_atendimento->data.mes = 11;
+			novo_atendimento->data.ano = 2019;
+
+
+			novo_atendimento->preferencial = 'S';
+			novo_atendimento->tipo_fila = 'C';
+			*/
+
+
+			novo_atendimento->ant = NULL;
+			novo_atendimento->prox = NULL;
 
 			novo_atendimento->data.dia = atoi(diaStr);
 			novo_atendimento->data.mes = atoi(mesStr);
 			novo_atendimento->data.ano = atoi(anoStr);
 
-			puts("test 03");
-			printf("%s\n", preferencial);
+
+
 			novo_atendimento->preferencial = preferencial[0];
 			novo_atendimento->tipo_fila = tipo_fila[0];
 
-			puts("test 04");
-
-			novo_atendimento->ant = NULL;
-			novo_atendimento->prox = NULL;
-
-			puts("++");
 			
-			/*
-			printf("%d\n", novo_atendimento->senha);
 			printf("%d\n", novo_atendimento->data.dia);
 			printf("%d\n", novo_atendimento->data.mes);
 			printf("%d\n", novo_atendimento->data.ano);
 			printf("%c\n", novo_atendimento->preferencial);
 			printf("%c\n", novo_atendimento->tipo_fila);
 
-			*/
+			
 
 
 			if (novo_atendimento->tipo_fila == 'c' || novo_atendimento->tipo_fila == 'C' ){
 
 				inserir_senha(lst_caixa,novo_atendimento);
 
+			}else{
+				inserir_senha(lst_mesa,novo_atendimento);
 			}
 
 			

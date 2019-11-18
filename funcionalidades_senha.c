@@ -26,6 +26,8 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 
 	novo_atendimento->preferencial = 'N';
 
+	limpar();
+
 	printf("\nPossui CONTA NESSE BANCO ?  S OU N");
 	scanf(" %c", &possui_conta);
 	
@@ -42,10 +44,9 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 		/* RETORNA SE A CONTA É PREFERENCIAL */
 		novo_atendimento->preferencial = pesquisar_cpf_preferencial(lst_contas,cpf_conta,numero_conta);
 
-		//printf("%c", novo_atendimento->preferencial);
-
-		if (novo_atendimento == NULL){
-			printf("\n conta invalida");
+		if (novo_atendimento->preferencial == 'R'){
+			printf("\n CONTA INVALIDA!!!");
+			free(novo_atendimento);
 		}else{
 
 			printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C: \n");
@@ -70,7 +71,6 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 					inserir_senha(lst_caixa,novo_atendimento);
 					system("pause");
 				}
-
 			}
 		}
 	}else{
@@ -84,8 +84,7 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 			inserir_senha(lst_mesa,novo_atendimento);
 
 		}else{
-			if (atendimento == 'c' || atendimento == 'C'){
-				
+			if (atendimento == 'c' || atendimento == 'C'){				
 				
 				novo_atendimento->tipo_fila = 'C';
 
@@ -97,19 +96,14 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 		}
 	}
 
-	system("PAUSE");
-
-	
+	system("PAUSE");	
 }
 
-void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento){
-	
+void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento){	
 	
 	fila_atendimento *percorre_lista;
 
 	percorre_lista = *lst_atendimento;
-
-
 
 	if (*lst_atendimento == NULL){
 		
@@ -129,7 +123,13 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 			}
 
 			if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
-				novo_atendimento->senha = percorre_lista->senha + 1;
+				
+				if(compara_data(percorre_lista->data,novo_atendimento->data) == 1){
+					novo_atendimento->senha = percorre_lista->senha + 1;
+				}else{
+					novo_atendimento->senha = 1;	
+				}
+				
 			}
 			
 			percorre_lista->prox = novo_atendimento;
@@ -141,7 +141,6 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 			/* EU VERIFICO SE O PRIMEIRO ATENDIMENTO É PREFERENCIAL */
 			if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
 				
-				puts("não preferencial no primeiro");
 				novo_atendimento->prox = percorre_lista;
 				percorre_lista->ant = novo_atendimento;
 				*lst_atendimento = novo_atendimento;
@@ -155,18 +154,29 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 
 					/* INSERE NO FINAL DOS PREFERENCIAIS */
 
+					if(compara_data(percorre_lista->ant->data,novo_atendimento->data) == 1){
+						novo_atendimento->senha = percorre_lista->ant->senha + 1;
+					}else{
+						novo_atendimento->senha = 1;	
+					}
+
 					novo_atendimento->prox = percorre_lista;
 					percorre_lista->ant->prox = novo_atendimento;
 					novo_atendimento->ant = percorre_lista->ant;
 					percorre_lista->ant = novo_atendimento;
 
-					novo_atendimento->senha = novo_atendimento->ant->senha + 1;
+					
 
 				}else{
 
 					novo_atendimento->ant = percorre_lista;
 					percorre_lista->prox = novo_atendimento;
-					novo_atendimento->senha = percorre_lista->senha + 1;
+
+					if(compara_data(percorre_lista->data,novo_atendimento->data) == 1){
+						novo_atendimento->senha = percorre_lista->senha + 1;
+					}else{
+						novo_atendimento->senha = 1;	
+					}
 
 				}
 
@@ -187,4 +197,27 @@ int compara_data(data_senha data01, data_senha data02){
 	}	
 	
 	return 0;
+}
+
+void retirar_senha(fila_atendimento **lst){
+
+	fila_atendimento *aux;
+
+	aux = *lst;
+
+	if(aux == NULL){
+		limpar();
+		puts("FILA VAZIA");
+		pausa();
+	}else{
+		
+		limpar();
+		printf("Senha: %c-%d ", aux->preferencial, aux->senha);
+		printf("\nData: %d/%d/%d \n", aux->data.dia,aux->data.mes,aux->data.ano);						
+
+		*lst = aux->prox;
+		free(aux);
+		pausa();
+	}
+
 }
