@@ -99,16 +99,18 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 	system("PAUSE");	
 }
 
-void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento){	
+void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, fila_atendimento *novo_atendimento){	
 	
 	fila_atendimento *percorre_lista;
 
-	percorre_lista = *lst_atendimento;
+	percorre_lista = *lst_inicio;
 
-	if (*lst_atendimento == NULL){
+	if (*lst_inicio == NULL){
 		
 		novo_atendimento->senha=1;
-		*lst_atendimento = novo_atendimento;
+		*lst_inicio = novo_atendimento;
+		*lst_final = novo_atendimento;
+
 		puts("primeira posição");
 
 	}else{
@@ -116,58 +118,88 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 		// N DE NÃO PREFERENCIAL
 		if(novo_atendimento->preferencial == 'n' || novo_atendimento->preferencial == 'N'){
 			
-			while(percorre_lista->prox != NULL){				
+			if (lst_final->preferencial == 'n' || lst_final->preferencial == 'N'){
 				
-				percorre_lista = percorre_lista->prox;
-
-			}
-
-			if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
-				
-				if(compara_data(percorre_lista->data,novo_atendimento->data) == 1){
-					novo_atendimento->senha = percorre_lista->senha + 1;
+				if(compara_data(lst_final->data,novo_atendimento->data) == 1){
+					novo_atendimento->senha = lst_final->senha + 1;
 				}else{
 					novo_atendimento->senha = 1;	
 				}
 				
 			}
 			
-			percorre_lista->prox = novo_atendimento;
-			novo_atendimento->ant = percorre_lista;
+			lst_final->prox = novo_atendimento;
+			novo_atendimento->ant = lst_final;
+			lst_final = lst_final->prox;
 
 		}else{
 			/* ENTRARA NESSE ELSE QUANDO O NOVO ATENDIMENTO FOR ATENDIMENTO PREFERENCIAL*/
 
-			/* EU VERIFICO SE O PRIMEIRO ATENDIMENTO É PREFERENCIAL */
-			if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
-				
-				novo_atendimento->prox = percorre_lista;
-				percorre_lista->ant = novo_atendimento;
-				*lst_atendimento = novo_atendimento;
+			/* EU VERIFICO SE O PRIMEIRO OU ULTIMO ATENDIMENTO É NÃO É PREFERENCIAL */
 
+			if (lst_inicio->preferencial == 'n' || lst_inicio->preferencial == 'N'){
+				
+				if (lst_inicio->preferencial == 'n' || lst_inicio->preferencial == 'N' || ){
+
+					novo_atendimento->prox = lst_inicio;
+					lst_inicio->ant = novo_atendimento;
+					*lst_inicio = novo_atendimento;
+
+				}				
 				
 			}else{
-				while((percorre_lista->preferencial == 's' || percorre_lista->preferencial == 'S' )&& percorre_lista->prox != NULL )
-					percorre_lista = percorre_lista->prox;
 
-				if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
+
+				/* ENTRA NESSE IF CASO TODOS OS ATENDIMENTOS FOREM PREFERENCIAIS PARA EVITAR
+				 FICAR PERCORRENDO SEMPRE A  LISTA*/
+
+				if(lst_final>preferencial == 's' || lst_final->preferencial == 's'){
+
+					/* CASO A DATA DA ULTIMA SENHA FOR A ATUAL ELE ADICIONA +1 A SENHA, 
+					SENÃO ELE RESETA A CONTAGEM SENHA  */
+					if (compara_data(lst_final->data, novo_atendimento->data) == ){
+
+						novo_atendimento->senha = lst_final->senha + 1;
+
+						novo_atendimento->ant = lst_inicio;
+						lst_final->prox = novo_atendimento;
+						*lst_inicio = novo_atendimento;
+
+					}else{
+
+						novo_atendimento->ant = lst_inicio;
+						lst_final->prox = novo_atendimento;
+						*lst_inicio = novo_atendimento;
+
+					}
+
+				}else{
+
+					/* O WHILE IRA PARAR QUANDO ENCONTRAR O PRIMEIRO ATENDIMENTO NÃO PREFERENCIAL, 
+					SEI QUE EXISTE ATENDIMENTOS NÃO PREFERENCIAL POIS NÃO ENTROU NO ULTIMO IF */
+					while(percorre_lista->preferencial == 's' || percorre_lista->preferencial == 'S'  )
+						percorre_lista = percorre_lista->prox;
+
+					
+					if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
 
 					/* INSERE NO FINAL DOS PREFERENCIAIS */
 
-					if(compara_data(percorre_lista->ant->data,novo_atendimento->data) == 1){
-						novo_atendimento->senha = percorre_lista->ant->senha + 1;
-					}else{
-						novo_atendimento->senha = 1;	
-					}
+						if(compara_data(percorre_lista->ant->data,novo_atendimento->data) == 1){
+							novo_atendimento->senha = percorre_lista->ant->senha + 1;
+						}else{
+							novo_atendimento->senha = 1;	
+						}
 
-					novo_atendimento->prox = percorre_lista;
-					percorre_lista->ant->prox = novo_atendimento;
-					novo_atendimento->ant = percorre_lista->ant;
-					percorre_lista->ant = novo_atendimento;
+						novo_atendimento->prox = percorre_lista;
+						percorre_lista->ant->prox = novo_atendimento;
+						novo_atendimento->ant = percorre_lista->ant;
+						percorre_lista->ant = novo_atendimento;
+					}					
 
-					
-
-				}else{
+				}
+/*
+				else{
 
 					novo_atendimento->ant = percorre_lista;
 					percorre_lista->prox = novo_atendimento;
@@ -177,17 +209,18 @@ void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_at
 					}else{
 						novo_atendimento->senha = 1;	
 					}
-
-				}
+					*/
 
 			}
+
 		}
 	}
-
 }
 
+
+
 int compara_data(data_senha data01, data_senha data02){
-	
+
 	if(data01.dia == data02.dia){
 		if(data01.mes == data02.mes){
 			if(data01.ano == data02.ano){
@@ -195,7 +228,7 @@ int compara_data(data_senha data01, data_senha data02){
 			}
 		}
 	}	
-	
+
 	return 0;
 }
 
@@ -219,5 +252,4 @@ void retirar_senha(fila_atendimento **lst){
 		free(aux);
 		pausa();
 	}
-
 }

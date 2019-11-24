@@ -12,16 +12,16 @@ int main(){
 
 	cliente *lst_clientes;
 	conta *lst_contas;
-	fila_atendimento *lst_mesa;
-	fila_atendimento *lst_caixa;
+	fila_atendimento *lst_caixa_inicio, *lst_caixa_final, *lst_mesa_inicio, *lst_mesa_final;
 	fila_atendimento *lst;
-
 
 	lst_clientes = NULL;
 	lst_contas = NULL;
-	lst_mesa = NULL;
-	lst_caixa = NULL;	
 
+	lst_caixa_inicio = NULL;
+	lst_caixa_final = NULL;
+	lst_mesa_inicio = NULL;
+	lst_mesa_final = NULL;
 
 	lerClientes(&lst_clientes);
 	lerContas(&lst_contas);
