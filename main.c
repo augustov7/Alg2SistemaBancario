@@ -135,24 +135,6 @@ int main(){
 
 					break;
 
-					case '4':
-
-					lst = lst_caixa_inicio;
-
-					while(lst != NULL){				
-						
-						printf("\n %d/%d/%d -  ", lst->data.dia,lst->data.mes,lst->data.ano);
-
-						printf("%c - %d ", lst->preferencial, lst->senha);						
-
-						lst = lst->prox;
-						system("pause");
-					}
-
-					
-					system("pause");
-					break;
-
 					default:
 					break;
 				}

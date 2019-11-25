@@ -59,7 +59,6 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 
 					novo_atendimento->tipo_fila = atendimento;
 					inserir_senha(lst_mesa_inicio, lst_mesa_final,novo_atendimento);
-
 				}
 			}
 
