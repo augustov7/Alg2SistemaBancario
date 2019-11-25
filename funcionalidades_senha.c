@@ -153,10 +153,10 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 				}
 			}
 			
-			(*lista_final)->prox = novo_atendimento;
+			lst_final->prox = novo_atendimento;
 			printf("%d\n", lst_final->senha);
-			novo_atendimento->ant = (*lista_final);
-			(*lista_final) = lst_final->prox;
+			novo_atendimento->ant = lst_final;
+			lst_final = lst_final->prox;
 
 			printf("%d\n", lst_final->senha);
 
@@ -195,12 +195,16 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 							novo_atendimento->senha = lst_final->senha + 1;
 						}else{
 							novo_atendimento->senha = 1;
+							puts("linha 198 ++++++++++++++");
 						}
 					}
+					puts("linha 200 ++++++++++++++");
 
-					novo_atendimento->ant = lst_final;
-					lst_final->prox = novo_atendimento;
-					lst_final = novo_atendimento;
+					novo_atendimento->ant = *lista_final;
+					(*lista_final)->prox = novo_atendimento;
+					*lista_final = (*lista_final)->prox;
+
+					//printf("%d\n", lst_final->senha);
 
 				}else{
 

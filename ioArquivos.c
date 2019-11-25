@@ -169,8 +169,12 @@ void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst
 		char *preferencial;
 		char *tipo_fila;
 
+		fila_atendimento *lst;
+
 		while(fgets(linha,110,ptArquivo) != NULL){
-		
+
+			lst = *lst_caixa_inicio;
+
 			fila_atendimento *novo_atendimento = (fila_atendimento*) malloc(sizeof(fila_atendimento));
 
 			senha_str = strtok(linha,";");
@@ -192,7 +196,7 @@ void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst
 			novo_atendimento->preferencial = preferencial[0];
 			novo_atendimento->tipo_fila = tipo_fila[0];
 			
-
+			printf("%d\n", novo_atendimento->senha);
 			printf("%d\n", novo_atendimento->data.dia);
 			printf("%d\n", novo_atendimento->data.mes);
 			printf("%d\n", novo_atendimento->data.ano);
@@ -207,6 +211,16 @@ void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst
 				inserir_senha(lst_mesa_inicio,lst_mesa_final,novo_atendimento);
 			}
 
+
+			while(lst != NULL){				
+
+				printf("\n %d/%d/%d -  ", lst->data.dia,lst->data.mes,lst->data.ano);
+
+				printf("%c - %d ", lst->preferencial, lst->senha);						
+
+				lst = lst->prox;
+				system("pause");
+			}
 			
 		}
 		
