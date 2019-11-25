@@ -1,6 +1,6 @@
 #include "menu.h"
 
-void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, conta *lst_contas){
+void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final, fila_atendimento **lst_mesa, conta *lst_contas, cliente *lst_clientes){
 	
 	char possui_conta;
 	char cpf_conta[15];
@@ -40,6 +40,9 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 
 		printf("\nInforme o NUMERO DA CONTA: ");
 		scanf(" %[^\n]",numero_conta);	
+
+		obtem_idade(cpf_conta,lst_clientes);
+
 
 		/* RETORNA SE A CONTA É PREFERENCIAL */
 		novo_atendimento->preferencial = pesquisar_cpf_preferencial(lst_contas,cpf_conta,numero_conta);
@@ -100,10 +103,18 @@ void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, c
 }
 
 void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, fila_atendimento *novo_atendimento){	
-	
+
 	fila_atendimento *percorre_lista;
 
 	percorre_lista = *lst_inicio;
+
+	/* PARTE EXTRA 
+
+	if (novo_atendimento->idade >= 65){
+		
+	}*/
+
+	//obtem_idade(lst_clientes, novo_a);
 
 	if (*lst_inicio == NULL){
 		
@@ -198,7 +209,8 @@ void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, 
 					}					
 
 				}
-/*
+				
+				/*
 				else{
 
 					novo_atendimento->ant = percorre_lista;
@@ -218,19 +230,6 @@ void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, 
 }
 
 
-
-int compara_data(data_senha data01, data_senha data02){
-
-	if(data01.dia == data02.dia){
-		if(data01.mes == data02.mes){
-			if(data01.ano == data02.ano){
-				return 1;
-			}
-		}
-	}	
-
-	return 0;
-}
 
 void retirar_senha(fila_atendimento **lst){
 

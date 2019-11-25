@@ -33,16 +33,16 @@ typedef struct conta{
 	struct conta *prox;
 }conta;
 
-typedef struct data_senha{
+typedef struct data_t{
 	int dia;
 	int mes;
 	int ano;
-}data_senha;
+}data_t;
 
 typedef struct fila_atendimento{
 	int senha;
 	char preferencial;/* SE É PREFERENCIAL S/N */
-	struct data_senha data; 
+	struct data_t data; 
 	char tipo_fila; /* MESA OU CAIXA*/
 	struct fila_atendimento *ant;
 	struct fila_atendimento *prox;
@@ -64,6 +64,8 @@ void pausa();
 
 void limpar();
 
+int compara_data(data_t data01, data_t data02);
+
 /* CLIENTES */
 
 void cadastrar_cliente(cliente **lista_clientes);
@@ -82,12 +84,13 @@ void listar_cliente_nome(cliente *lst_clientes);
 
 char* nome_cliente_cpf(char *cpf_usuario, cliente *lst_clientes);
 
+int obtem_idade(char *cpf_usuario, cliente *lst_clientes);
+
 /* CONTA */
 
 void cadastrar_conta(conta **lista_contas);
 
 int inserir_conta(char cpf_conta[],char Agencia_bancaria[], char tipo_conta[], char numero_conta[], char conta_preferencial, double saldo, conta **lista_contas);
-
 
 void pesquisar_numero_contas(conta *lista_contas);
 
@@ -101,9 +104,10 @@ char pesquisar_cpf_preferencial(conta *lst_contas, char cpf_conta[], char numero
 
 /*FILA DE ATENDIMENTO */
 
-void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, conta *lst_contas);
+void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, conta *lst_contas, cliente *lst_clientes);
 
-void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento);
+//void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento);
+void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, fila_atendimento *novo_atendimento);
 
 int salvarFila(fila_atendimento *fila); 
 
@@ -111,4 +115,3 @@ void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa);
 
 void retirar_senha(fila_atendimento **lst);
 
-int compara_data(data_senha data01, data_senha data02);

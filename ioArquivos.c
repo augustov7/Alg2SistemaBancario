@@ -176,20 +176,8 @@ void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
 			anoStr = strtok(NULL,";");
 			preferencial =  strtok(NULL,";");
 			tipo_fila = strtok(NULL,";");
-
 			
 			novo_atendimento->senha = 1;
-
-/*
-			novo_atendimento->data.dia = 17;
-			novo_atendimento->data.mes = 11;
-			novo_atendimento->data.ano = 2019;
-
-
-			novo_atendimento->preferencial = 'S';
-			novo_atendimento->tipo_fila = 'C';
-			*/
-
 
 			novo_atendimento->ant = NULL;
 			novo_atendimento->prox = NULL;
@@ -198,20 +186,14 @@ void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
 			novo_atendimento->data.mes = atoi(mesStr);
 			novo_atendimento->data.ano = atoi(anoStr);
 
-
-
 			novo_atendimento->preferencial = preferencial[0];
 			novo_atendimento->tipo_fila = tipo_fila[0];
-
 			
 			printf("%d\n", novo_atendimento->data.dia);
 			printf("%d\n", novo_atendimento->data.mes);
 			printf("%d\n", novo_atendimento->data.ano);
 			printf("%c\n", novo_atendimento->preferencial);
 			printf("%c\n", novo_atendimento->tipo_fila);
-
-			
-
 
 			if (novo_atendimento->tipo_fila == 'c' || novo_atendimento->tipo_fila == 'C' ){
 

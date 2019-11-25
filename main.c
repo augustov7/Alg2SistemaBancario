@@ -112,7 +112,7 @@ int main(){
 					/* REGISTRAR SENHA PARA CLIENTE */
 					case '1':
 					
-					registra_senha(&lst_caixa,&lst_mesa,lst_contas);
+					registra_senha(&lst_caixa,&lst_mesa,lst_contas,lst_clientes);
 
 					break;
 

@@ -25,9 +25,8 @@ void cadastrar_cliente(cliente **lista_clientes){
 	printf("\nInforme o TELEFONE de Contato:");
 	scanf(" %[^\n]", telefone);
 
-	int i = inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,lista_clientes);
+	inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,lista_clientes);
 
-	printf("%d\n", i);
 
 }
 
@@ -157,4 +156,43 @@ char* nome_cliente_cpf(char *cpf_usuario, cliente *lst_clientes){
 	}
 
 	return NULL;
+}
+
+int obtem_idade(char *cpf_usuario, cliente *lst_clientes){
+
+	struct tm *data_hora_atual;     
+	time_t segundos;
+	data_t data;
+
+	cliente *lst;
+
+	time(&segundos);     
+	data_hora_atual = localtime(&segundos);
+
+	data.dia = data_hora_atual->tm_mday;
+	data.mes = data_hora_atual->tm_mon+1;
+	data.ano = data_hora_atual->tm_year+1900;
+
+	printf("%d\n", data.dia);
+	printf("%d\n", data.mes);
+	printf("%d\n", data.ano);
+
+	lst = lst_clientes;
+
+	while(lst != NULL){
+
+		if (comparaString(cpf_usuario,lst->cpf_usuario) == 1){
+			
+			printf("%s\n", lst->data_nascimento);
+
+			//strtok(lst->data_nascimento);
+		}
+
+	}
+
+	system("pause");
+
+	return 1;
+
+
 }
