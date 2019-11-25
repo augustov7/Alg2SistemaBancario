@@ -10,7 +10,7 @@
 	#include <conio.h>
 #endif 
 
-#define MAX_SIZE 30
+#define MAX_SIZE 100
 
 typedef struct cliente{
 	char nome[50];
@@ -86,6 +86,8 @@ char* nome_cliente_cpf(char *cpf_usuario, cliente *lst_clientes);
 
 int obtem_idade(char *cpf_usuario, cliente *lst_clientes);
 
+int retorna_idade(data_t data01, data_t data02);
+
 /* CONTA */
 
 void cadastrar_conta(conta **lista_contas);
@@ -106,7 +108,6 @@ char pesquisar_cpf_preferencial(conta *lst_contas, char cpf_conta[], char numero
 
 void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final, conta *lst_contas, cliente *lst_clientes);
 
-//void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento);
 void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, fila_atendimento *novo_atendimento);
 
 int salvarFila(fila_atendimento *fila); 
@@ -114,4 +115,6 @@ int salvarFila(fila_atendimento *fila);
 void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final);
 
 void retirar_senha(fila_atendimento **lst);
+
+void imprimir_senha(fila_atendimento *novo_atendimento);
 

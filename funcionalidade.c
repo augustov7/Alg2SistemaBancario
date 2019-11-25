@@ -13,7 +13,9 @@ void pausa(){
 
 	/* limpar buffer */
 	fflush(stdin);
+	puts("\n...Aperte ENTER...");
 	getch();
+
 
 }
 

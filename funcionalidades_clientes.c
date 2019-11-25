@@ -2,6 +2,8 @@
 
 void cadastrar_cliente(cliente **lista_clientes){
 
+	limpar();
+
 	char nome[50];
 	char cpf_usuario[15];
 	char data_nascimento[20];
@@ -25,7 +27,14 @@ void cadastrar_cliente(cliente **lista_clientes){
 	printf("\nInforme o TELEFONE de Contato:");
 	scanf(" %[^\n]", telefone);
 
-	inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,lista_clientes);
+
+	if(inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,lista_clientes) == 1){
+		limpar();
+		printf("CADASTRADO !!!\n");
+	}else{
+		limpar();
+		printf("CADASTRADO !!!\n");
+	}
 
 
 }
@@ -70,12 +79,11 @@ void listar_clientes(cliente *lista_clientes){
 
 		lst = lst->prox;
 	}
-
-	puts("-- FIM --");
-
 }
 
 void listar_cliente_cpf(cliente *lst_clientes){
+
+	limpar();
 
 	cliente *lst;
 
@@ -109,6 +117,8 @@ void listar_cliente_cpf(cliente *lst_clientes){
 }
 
 void listar_cliente_nome(cliente *lst_clientes){
+
+	limpar();
 
 	cliente *lst;
 
@@ -162,20 +172,21 @@ int obtem_idade(char *cpf_usuario, cliente *lst_clientes){
 
 	struct tm *data_hora_atual;     
 	time_t segundos;
-	data_t data;
+	data_t data01;
+	data_t data02;
+
+	char *dia_str;
+	char *mes_str;
+	char *ano_str;
 
 	cliente *lst;
 
 	time(&segundos);     
 	data_hora_atual = localtime(&segundos);
 
-	data.dia = data_hora_atual->tm_mday;
-	data.mes = data_hora_atual->tm_mon+1;
-	data.ano = data_hora_atual->tm_year+1900;
-
-	printf("%d\n", data.dia);
-	printf("%d\n", data.mes);
-	printf("%d\n", data.ano);
+	data01.dia = data_hora_atual->tm_mday;
+	data01.mes = data_hora_atual->tm_mon+1;
+	data01.ano = data_hora_atual->tm_year+1900;
 
 	lst = lst_clientes;
 
@@ -183,17 +194,43 @@ int obtem_idade(char *cpf_usuario, cliente *lst_clientes){
 
 		if (comparaString(cpf_usuario,lst->cpf_usuario) == 1){
 			
-			printf("%s\n", lst->data_nascimento);
+			dia_str = strtok(lst->data_nascimento,"/");
+			mes_str = strtok(NULL,"/");
+			ano_str = strtok(NULL,"");
+			
+			data02.dia = atoi(dia_str);
+			data02.mes = atoi(mes_str);
+			data02.ano = atoi(ano_str);
 
-			//strtok(lst->data_nascimento);
+			return retorna_idade(data01,data02);
+
 		}
 		lst = lst->prox;
 
 	}
 
-	system("pause");
+	return -1;
 
-	return 1;
+}
 
+int retorna_idade(data_t data01, data_t data02){
+
+	int idade;
+
+	idade = data01.ano - data02.ano;
+
+	if(data01.mes == data02.mes ){
+
+		if (data01.dia < data02.dia){
+			idade--;	
+		}		
+	}
+
+	if(data01.mes < data02.mes ){
+
+		idade--;		
+	}
+
+	return idade;
 
 }

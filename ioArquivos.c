@@ -126,35 +126,35 @@ void lerContas(conta **lista_contas){
 
 int salvarFila(fila_atendimento *fila){
 
-	fila_atendimento *lst;
 	FILE *ptArq;
 
-	lst = fila;
 
-	ptArq = fopen("fila.csv", "a");
+	ptArq = fopen("Fila.csv", "a");
 
 	if(ptArq == NULL){
-		printf("erro");
+		printf("Erro ao abrir arquivo de Filas");
 		return 0;
+	}else{
+		while(fila != NULL){
+			
+			fprintf(ptArq, "%d;", fila->senha);
+			fprintf(ptArq, "%d;", fila->data.dia);
+			fprintf(ptArq, "%d;", fila->data.mes);
+			fprintf(ptArq, "%d;", fila->data.ano);        
+			fprintf(ptArq, "%c;", fila->preferencial);
+			fprintf(ptArq, "%c;\n", fila->tipo_fila);
+			
+			fila = fila->prox;
+		}
 	}
-	while(lst != NULL){
-
-		fprintf(ptArq, "%d;", lst->senha);
-		fprintf(ptArq, "%d;", lst->data.dia);
-		fprintf(ptArq, "%d;", lst->data.mes);
-		fprintf(ptArq, "%d;", lst->data.ano);        
-		fprintf(ptArq, "%c;", lst->preferencial);
-		fprintf(ptArq, "%c;\n", lst->tipo_fila);
-
-		lst = lst->prox;
-	}
+	
 	fclose(ptArq);
 	return 1;
 }
 
 void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final){
 
-	FILE *ptArquivo = fopen("fila.csv", "r");
+	FILE *ptArquivo = fopen("Fila.csv", "r");
 
 	if (ptArquivo == NULL){
 		puts("Erro ao abrir arquivo");
@@ -196,12 +196,16 @@ void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst
 			novo_atendimento->preferencial = preferencial[0];
 			novo_atendimento->tipo_fila = tipo_fila[0];
 			
+			
+
 			printf("%d\n", novo_atendimento->senha);
 			printf("%d\n", novo_atendimento->data.dia);
 			printf("%d\n", novo_atendimento->data.mes);
 			printf("%d\n", novo_atendimento->data.ano);
 			printf("%c\n", novo_atendimento->preferencial);
 			printf("%c\n", novo_atendimento->tipo_fila);
+
+			
 
 			if (novo_atendimento->tipo_fila == 'c' || novo_atendimento->tipo_fila == 'C' ){
 
@@ -219,13 +223,11 @@ void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst
 				printf("%c - %d ", lst->preferencial, lst->senha);						
 
 				lst = lst->prox;
-				system("pause");
 			}
 			
 		}
 		
 	}
-	system("pause");
 
 	fclose(ptArquivo);
 }

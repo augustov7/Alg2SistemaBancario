@@ -28,7 +28,7 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 
 	limpar();
 
-	printf("\nPossui CONTA NESSE BANCO ?  S OU N");
+	printf("\nPossui CONTA NESSE BANCO ?  S OU N ");
 	scanf(" %c", &possui_conta);
 	
 
@@ -41,49 +41,67 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 		printf("\nInforme o NUMERO DA CONTA: ");
 		scanf(" %[^\n]",numero_conta);	
 
-		obtem_idade(cpf_conta,lst_clientes);
+		/* PARTE BONUS VERIFICA SE A IDADE É MAIOR QUE 65 E JÁ INSERE NA LISTA */
+		if(obtem_idade(cpf_conta,lst_clientes) >= 65 ){
 
+			novo_atendimento->preferencial = 'S';
+			printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C: ");
 
-		/* RETORNA SE A CONTA É PREFERENCIAL */
-		novo_atendimento->preferencial = pesquisar_cpf_preferencial(lst_contas,cpf_conta,numero_conta);
+			scanf(" %c", &atendimento);
 
-		if (novo_atendimento->preferencial == 'R'){
-			printf("\n CONTA INVALIDA!!!");
-			free(novo_atendimento);
-		}else{
-
-			printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C: \n");
-
-			scanf(" %c", &atendimento);	
-
-			if(atendimento == 'm' || atendimento == 'M'){
-
-				puts("inserindo senha mesa");
+			if(atendimento == 'c' || atendimento == 'C'){
 
 				novo_atendimento->tipo_fila = atendimento;
-				inserir_senha(lst_mesa_inicio, lst_mesa_final,novo_atendimento);
+				inserir_senha(lst_caixa_inicio,lst_caixa_final,novo_atendimento);
 
 			}else{
+				if(atendimento == 'm' || atendimento == 'M'){					
 
-				if(atendimento == 'c' || atendimento == 'C'){
-					puts("inserindo senha CAIXA");				
 					novo_atendimento->tipo_fila = atendimento;
+					inserir_senha(lst_mesa_inicio, lst_mesa_final,novo_atendimento);
 
-					printf("preferencial: %c\n", novo_atendimento->preferencial);
+				}
+			}
 
-					inserir_senha(lst_caixa_inicio,lst_caixa_final,novo_atendimento);
-					system("pause");
+		}else{
+
+		/* RETORNA SE A CONTA É PREFERENCIAL */
+			novo_atendimento->preferencial = pesquisar_cpf_preferencial(lst_contas,cpf_conta,numero_conta);
+
+			if (novo_atendimento->preferencial == 'R'){
+				printf("\n CONTA INVALIDA!!!");
+				free(novo_atendimento);
+			}else{
+
+				printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C: ");
+
+				scanf(" %c", &atendimento);	
+
+				if(atendimento == 'm' || atendimento == 'M'){					
+
+					novo_atendimento->tipo_fila = atendimento;
+					inserir_senha(lst_mesa_inicio, lst_mesa_final,novo_atendimento);
+
+				}else{
+
+					if(atendimento == 'c' || atendimento == 'C'){
+
+						novo_atendimento->tipo_fila = atendimento;
+
+						inserir_senha(lst_caixa_inicio,lst_caixa_final,novo_atendimento);
+						
+					}
 				}
 			}
 		}
+
 	}else{
 		
-		printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C :");
+		printf("\nInforme o TIPO DE ATENDIMENTO: MESA = M OU CAIXA = C: ");
 		scanf(" %[^\n]",&atendimento);
 
 		if(atendimento == 'm' || atendimento == 'M'){
-
-			puts("inserindo senha mesa sem conta");
+			
 			inserir_senha(lst_mesa_inicio, lst_mesa_final,novo_atendimento);
 
 		}else{
@@ -91,16 +109,13 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 				
 				novo_atendimento->tipo_fila = 'C';
 
-				puts("inserindo senha CAIXA sem conta");
-
 				inserir_senha(lst_caixa_inicio,lst_caixa_final,novo_atendimento);
 			}
 			
 		}
 	}
-
-	system("PAUSE");	
 }
+
 
 void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_final, fila_atendimento *novo_atendimento){	
 
@@ -111,13 +126,6 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 	lst_inicio = *lista_inicio;
 	lst_final = *lista_final;
 
-	/* PARTE EXTRA 
-
-	if (novo_atendimento->idade >= 65){
-		
-	}*/
-
-	//obtem_idade(lst_clientes, novo_a);
 
 	if (lst_inicio == NULL){
 		
@@ -125,10 +133,9 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 		*lista_inicio = novo_atendimento;
 		*lista_final = novo_atendimento;
 
-		puts("primeira posicao");
+		imprimir_senha(novo_atendimento);
 
 	}else{
-
 		// N DE NÃO PREFERENCIAL
 		if(novo_atendimento->preferencial == 'n' || novo_atendimento->preferencial == 'N'){
 			
@@ -142,9 +149,7 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 					}else{
 						novo_atendimento->senha = 1;	
 					}
-				}
-				
-				
+				}					
 			}else{
 
 				if (novo_atendimento->senha == -1){				
@@ -153,14 +158,12 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 				}
 			}
 			
-			lst_final->prox = novo_atendimento;
-			printf("%d\n", lst_final->senha);
-			novo_atendimento->ant = lst_final;
-			lst_final = lst_final->prox;
+			novo_atendimento->ant = *lista_final;
+			(*lista_final)->prox = novo_atendimento;
+			*lista_final = (*lista_final)->prox;
 
-			printf("%d\n", lst_final->senha);
+			imprimir_senha(novo_atendimento);
 
-			pausa();
 
 		}else{/* ENTRARA NESSE ELSE QUANDO O NOVO ATENDIMENTO FOR ATENDIMENTO PREFERENCIAL*/			
 
@@ -175,11 +178,11 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 					novo_atendimento->prox = lst_inicio;
 					lst_inicio->ant = novo_atendimento;
 					*lista_inicio = novo_atendimento;
+
+					imprimir_senha(novo_atendimento);
 				}
 
-				
 			}else{
-
 
 				/* ENTRA NESSE IF CASO TODOS OS ATENDIMENTOS FOREM PREFERENCIAIS PARA EVITAR
 				 FICAR PERCORRENDO SEMPRE A  LISTA*/
@@ -195,16 +198,14 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 							novo_atendimento->senha = lst_final->senha + 1;
 						}else{
 							novo_atendimento->senha = 1;
-							puts("linha 198 ++++++++++++++");
 						}
 					}
-					puts("linha 200 ++++++++++++++");
 
 					novo_atendimento->ant = *lista_final;
 					(*lista_final)->prox = novo_atendimento;
 					*lista_final = (*lista_final)->prox;
 
-					//printf("%d\n", lst_final->senha);
+					imprimir_senha(novo_atendimento);
 
 				}else{
 
@@ -224,29 +225,16 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 								novo_atendimento->senha = 1;	
 							}
 						}
+
 						novo_atendimento->prox = percorre_lista;
 						percorre_lista->ant->prox = novo_atendimento;
 						novo_atendimento->ant = percorre_lista->ant;
 						percorre_lista->ant = novo_atendimento;
+
+						imprimir_senha(novo_atendimento);
 					}					
-
-				}
-
-				/*
-				else{
-
-					novo_atendimento->ant = percorre_lista;
-					percorre_lista->prox = novo_atendimento;
-
-					if(compara_data(percorre_lista->data,novo_atendimento->data) == 1){
-						novo_atendimento->senha = percorre_lista->senha + 1;
-					}else{
-						novo_atendimento->senha = 1;	
-					}
-					*/
-
+				}			
 			}
-
 		}
 	}
 }
@@ -273,4 +261,12 @@ void retirar_senha(fila_atendimento **lst){
 		free(aux);
 		pausa();
 	}
+}
+
+
+void imprimir_senha(fila_atendimento *novo_atendimento){	
+
+	limpar();
+	printf("Senha: %c-%d ", novo_atendimento->preferencial, novo_atendimento->senha);
+	printf("\nData: %d/%d/%d \n", novo_atendimento->data.dia,novo_atendimento->data.mes,novo_atendimento->data.ano);						
 }

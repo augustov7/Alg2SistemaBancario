@@ -13,6 +13,8 @@ int main(){
 	
 	char op, subop;
 
+	//fila_atendimento lista_de_prioridade[MAX_SIZE];
+
 	cliente *lst_clientes;
 	conta *lst_contas;
 	fila_atendimento *lst_caixa_inicio, *lst_caixa_final, *lst_mesa_inicio, *lst_mesa_final;
@@ -82,7 +84,7 @@ int main(){
 					case '1':
 
 					pesquisar_cpf_contas(lst_contas,lst_clientes);
-					system("PAUSE");
+					pausa();
 
 					break;
 
@@ -116,7 +118,7 @@ int main(){
 					case '1':
 					
 					registra_senha(&lst_caixa_inicio,&lst_caixa_final,&lst_mesa_inicio,&lst_mesa_final,lst_contas,lst_clientes);
-
+					pausa();
 					break;
 
 					/* EMITIR SENHA DE CLIENTE PARA O CAIXA */
@@ -168,6 +170,8 @@ int main(){
 	printf("\n");
 	gravarCliente(lst_clientes);
 	gravarConta(lst_contas);
+
+	remove("Fila.csv");
 	salvarFila(lst_caixa_inicio);
 	salvarFila(lst_mesa_inicio);
 
