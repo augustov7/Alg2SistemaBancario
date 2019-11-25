@@ -1,6 +1,6 @@
 #include "menu.h"
 
-void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final, fila_atendimento **lst_mesa, conta *lst_contas, cliente *lst_clientes){
+void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final, conta *lst_contas, cliente *lst_clientes){
 	
 	char possui_conta;
 	char cpf_conta[15];
@@ -21,7 +21,7 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 	novo_atendimento->data.ano = data_hora_atual->tm_year+1900;
 	novo_atendimento->ant = NULL;
 	novo_atendimento->prox = NULL;
-	novo_atendimento->senha = 1;
+	novo_atendimento->senha = -1;
 
 
 	novo_atendimento->preferencial = 'N';
@@ -61,7 +61,7 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 				puts("inserindo senha mesa");
 
 				novo_atendimento->tipo_fila = atendimento;
-				inserir_senha(lst_mesa,novo_atendimento);
+				inserir_senha(lst_mesa_inicio, lst_mesa_final,novo_atendimento);
 
 			}else{
 
@@ -71,7 +71,7 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 
 					printf("preferencial: %c\n", novo_atendimento->preferencial);
 
-					inserir_senha(lst_caixa,novo_atendimento);
+					inserir_senha(lst_caixa_inicio,lst_caixa_final,novo_atendimento);
 					system("pause");
 				}
 			}
@@ -84,7 +84,7 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 		if(atendimento == 'm' || atendimento == 'M'){
 
 			puts("inserindo senha mesa sem conta");
-			inserir_senha(lst_mesa,novo_atendimento);
+			inserir_senha(lst_mesa_inicio, lst_mesa_final,novo_atendimento);
 
 		}else{
 			if (atendimento == 'c' || atendimento == 'C'){				
@@ -93,7 +93,7 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 
 				puts("inserindo senha CAIXA sem conta");
 
-				inserir_senha(lst_caixa,novo_atendimento);
+				inserir_senha(lst_caixa_inicio,lst_caixa_final,novo_atendimento);
 			}
 			
 		}
@@ -102,11 +102,14 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 	system("PAUSE");	
 }
 
-void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, fila_atendimento *novo_atendimento){	
+void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_final, fila_atendimento *novo_atendimento){	
 
-	fila_atendimento *percorre_lista;
+	fila_atendimento *percorre_lista, *lst_inicio, *lst_final;
 
-	percorre_lista = *lst_inicio;
+	percorre_lista = *lista_inicio;
+
+	lst_inicio = *lista_inicio;
+	lst_final = *lista_final;
 
 	/* PARTE EXTRA 
 
@@ -116,13 +119,13 @@ void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, 
 
 	//obtem_idade(lst_clientes, novo_a);
 
-	if (*lst_inicio == NULL){
+	if (lst_inicio == NULL){
 		
 		novo_atendimento->senha=1;
-		*lst_inicio = novo_atendimento;
-		*lst_final = novo_atendimento;
+		*lista_inicio = novo_atendimento;
+		*lista_final = novo_atendimento;
 
-		puts("primeira posição");
+		puts("primeira posicao");
 
 	}else{
 
@@ -131,32 +134,49 @@ void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, 
 			
 			if (lst_final->preferencial == 'n' || lst_final->preferencial == 'N'){
 				
-				if(compara_data(lst_final->data,novo_atendimento->data) == 1){
-					novo_atendimento->senha = lst_final->senha + 1;
-				}else{
-					novo_atendimento->senha = 1;	
+				if (novo_atendimento->senha == -1){
+					if(compara_data(lst_final->data,novo_atendimento->data) == 1){						
+
+						novo_atendimento->senha = lst_final->senha + 1;
+
+					}else{
+						novo_atendimento->senha = 1;	
+					}
 				}
 				
+				
+			}else{
+
+				if (novo_atendimento->senha == -1){				
+
+					novo_atendimento->senha = 1;					
+				}
 			}
 			
-			lst_final->prox = novo_atendimento;
-			novo_atendimento->ant = lst_final;
-			lst_final = lst_final->prox;
+			(*lista_final)->prox = novo_atendimento;
+			printf("%d\n", lst_final->senha);
+			novo_atendimento->ant = (*lista_final);
+			(*lista_final) = lst_final->prox;
 
-		}else{
-			/* ENTRARA NESSE ELSE QUANDO O NOVO ATENDIMENTO FOR ATENDIMENTO PREFERENCIAL*/
+			printf("%d\n", lst_final->senha);
 
-			/* EU VERIFICO SE O PRIMEIRO OU ULTIMO ATENDIMENTO É NÃO É PREFERENCIAL */
+			pausa();
+
+		}else{/* ENTRARA NESSE ELSE QUANDO O NOVO ATENDIMENTO FOR ATENDIMENTO PREFERENCIAL*/			
+
+			/* EU VERIFICO SE O PRIMEIRO OU ULTIMO ATENDIMENTO É OU NÃO É PREFERENCIAL */
 
 			if (lst_inicio->preferencial == 'n' || lst_inicio->preferencial == 'N'){
 				
-				if (lst_inicio->preferencial == 'n' || lst_inicio->preferencial == 'N' || ){
 
+				if (novo_atendimento->senha == -1){
+
+					novo_atendimento->senha = 1;
 					novo_atendimento->prox = lst_inicio;
 					lst_inicio->ant = novo_atendimento;
-					*lst_inicio = novo_atendimento;
+					*lista_inicio = novo_atendimento;
+				}
 
-				}				
 				
 			}else{
 
@@ -164,25 +184,23 @@ void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, 
 				/* ENTRA NESSE IF CASO TODOS OS ATENDIMENTOS FOREM PREFERENCIAIS PARA EVITAR
 				 FICAR PERCORRENDO SEMPRE A  LISTA*/
 
-				if(lst_final>preferencial == 's' || lst_final->preferencial == 's'){
+				if(lst_final->preferencial == 's' || lst_final->preferencial == 'S'){
 
 					/* CASO A DATA DA ULTIMA SENHA FOR A ATUAL ELE ADICIONA +1 A SENHA, 
 					SENÃO ELE RESETA A CONTAGEM SENHA  */
-					if (compara_data(lst_final->data, novo_atendimento->data) == ){
+					
+					if (novo_atendimento->senha == -1){
+						if (compara_data(lst_final->data, novo_atendimento->data) == 1){
 
-						novo_atendimento->senha = lst_final->senha + 1;
-
-						novo_atendimento->ant = lst_inicio;
-						lst_final->prox = novo_atendimento;
-						*lst_inicio = novo_atendimento;
-
-					}else{
-
-						novo_atendimento->ant = lst_inicio;
-						lst_final->prox = novo_atendimento;
-						*lst_inicio = novo_atendimento;
-
+							novo_atendimento->senha = lst_final->senha + 1;
+						}else{
+							novo_atendimento->senha = 1;
+						}
 					}
+
+					novo_atendimento->ant = lst_final;
+					lst_final->prox = novo_atendimento;
+					lst_final = novo_atendimento;
 
 				}else{
 
@@ -191,17 +209,17 @@ void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, 
 					while(percorre_lista->preferencial == 's' || percorre_lista->preferencial == 'S'  )
 						percorre_lista = percorre_lista->prox;
 
-					
+
 					if (percorre_lista->preferencial == 'n' || percorre_lista->preferencial == 'N'){
 
 					/* INSERE NO FINAL DOS PREFERENCIAIS */
-
-						if(compara_data(percorre_lista->ant->data,novo_atendimento->data) == 1){
-							novo_atendimento->senha = percorre_lista->ant->senha + 1;
-						}else{
-							novo_atendimento->senha = 1;	
+						if (novo_atendimento->senha == -1){
+							if(compara_data(percorre_lista->ant->data,novo_atendimento->data) == 1){
+								novo_atendimento->senha = percorre_lista->ant->senha + 1;
+							}else{
+								novo_atendimento->senha = 1;	
+							}
 						}
-
 						novo_atendimento->prox = percorre_lista;
 						percorre_lista->ant->prox = novo_atendimento;
 						novo_atendimento->ant = percorre_lista->ant;
@@ -209,7 +227,7 @@ void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, 
 					}					
 
 				}
-				
+
 				/*
 				else{
 
@@ -242,7 +260,7 @@ void retirar_senha(fila_atendimento **lst){
 		puts("FILA VAZIA");
 		pausa();
 	}else{
-		
+
 		limpar();
 		printf("Senha: %c-%d ", aux->preferencial, aux->senha);
 		printf("\nData: %d/%d/%d \n", aux->data.dia,aux->data.mes,aux->data.ano);						

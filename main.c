@@ -4,6 +4,9 @@
 CD C:\Users\Augusto\Desktop\Trab\Alg2SistemaBancario
 
 gcc *.c -o trab.exe -pedantic -Wall
+
+gcc -o executavel main.c menu.c getch.c funcionalidade.c funcionalidades_clientes.c funcionalidades_conta.c funcionalidades_senha.c ioArquivos.c -Wall -pedantic
+
 */
 
 int main(){
@@ -25,7 +28,7 @@ int main(){
 
 	lerClientes(&lst_clientes);
 	lerContas(&lst_contas);
-	lerAtendimentos(&lst_caixa,&lst_mesa);
+	lerAtendimentos(&lst_caixa_inicio,&lst_caixa_final,&lst_mesa_inicio,&lst_mesa_final);
 
 	op = menu_principal();
 
@@ -112,27 +115,27 @@ int main(){
 					/* REGISTRAR SENHA PARA CLIENTE */
 					case '1':
 					
-					registra_senha(&lst_caixa,&lst_mesa,lst_contas,lst_clientes);
+					registra_senha(&lst_caixa_inicio,&lst_caixa_final,&lst_mesa_inicio,&lst_mesa_final,lst_contas,lst_clientes);
 
 					break;
 
 					/* EMITIR SENHA DE CLIENTE PARA O CAIXA */
 					case '2':
 					
-					retirar_senha(&lst_caixa);
+					retirar_senha(&lst_caixa_inicio);
 
 					break;
 
 					/* EMITIR SENHA DE CLIENTE PARA A MESA */
 					case '3':
 
-					retirar_senha(&lst_mesa);
+					retirar_senha(&lst_mesa_inicio);
 
 					break;
 
 					case '4':
 
-					lst = lst_caixa;
+					lst = lst_caixa_inicio;
 
 					while(lst != NULL){				
 						
@@ -165,8 +168,10 @@ int main(){
 	printf("\n");
 	gravarCliente(lst_clientes);
 	gravarConta(lst_contas);
-	salvarFila(lst_caixa);
-	salvarFila(lst_mesa);
+	salvarFila(lst_caixa_inicio);
+	salvarFila(lst_mesa_inicio);
+
+	pausa();
 	
 	return 0;
 }

@@ -139,6 +139,7 @@ int salvarFila(fila_atendimento *fila){
 	}
 	while(lst != NULL){
 
+		fprintf(ptArq, "%d;", lst->senha);
 		fprintf(ptArq, "%d;", lst->data.dia);
 		fprintf(ptArq, "%d;", lst->data.mes);
 		fprintf(ptArq, "%d;", lst->data.ano);        
@@ -151,7 +152,7 @@ int salvarFila(fila_atendimento *fila){
 	return 1;
 }
 
-void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
+void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final){
 
 	FILE *ptArquivo = fopen("fila.csv", "r");
 
@@ -161,6 +162,7 @@ void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
 
 		char linha[110];
 
+		char *senha_str;
 		char *diaStr;
 		char *mesStr;
 		char *anoStr;
@@ -171,13 +173,14 @@ void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
 		
 			fila_atendimento *novo_atendimento = (fila_atendimento*) malloc(sizeof(fila_atendimento));
 
-			diaStr = strtok(linha,";");
+			senha_str = strtok(linha,";");
+			diaStr = strtok(NULL,";");
 			mesStr = strtok(NULL,";");
 			anoStr = strtok(NULL,";");
 			preferencial =  strtok(NULL,";");
 			tipo_fila = strtok(NULL,";");
 			
-			novo_atendimento->senha = 1;
+			novo_atendimento->senha = atoi(senha_str);
 
 			novo_atendimento->ant = NULL;
 			novo_atendimento->prox = NULL;
@@ -189,6 +192,7 @@ void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
 			novo_atendimento->preferencial = preferencial[0];
 			novo_atendimento->tipo_fila = tipo_fila[0];
 			
+
 			printf("%d\n", novo_atendimento->data.dia);
 			printf("%d\n", novo_atendimento->data.mes);
 			printf("%d\n", novo_atendimento->data.ano);
@@ -197,10 +201,10 @@ void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa){
 
 			if (novo_atendimento->tipo_fila == 'c' || novo_atendimento->tipo_fila == 'C' ){
 
-				inserir_senha(lst_caixa,novo_atendimento);
+				inserir_senha(lst_caixa_inicio,lst_caixa_final,novo_atendimento);
 
 			}else{
-				inserir_senha(lst_mesa,novo_atendimento);
+				inserir_senha(lst_mesa_inicio,lst_mesa_final,novo_atendimento);
 			}
 
 			

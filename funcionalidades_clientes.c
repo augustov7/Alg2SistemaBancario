@@ -187,6 +187,7 @@ int obtem_idade(char *cpf_usuario, cliente *lst_clientes){
 
 			//strtok(lst->data_nascimento);
 		}
+		lst = lst->prox;
 
 	}
 

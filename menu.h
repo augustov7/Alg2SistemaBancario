@@ -104,14 +104,14 @@ char pesquisar_cpf_preferencial(conta *lst_contas, char cpf_conta[], char numero
 
 /*FILA DE ATENDIMENTO */
 
-void registra_senha(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa, conta *lst_contas, cliente *lst_clientes);
+void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final, conta *lst_contas, cliente *lst_clientes);
 
 //void inserir_senha(fila_atendimento **lst_atendimento, fila_atendimento *novo_atendimento);
 void inserir_senha(fila_atendimento **lst_inicio, fila_atendimento **lst_final, fila_atendimento *novo_atendimento);
 
 int salvarFila(fila_atendimento *fila); 
 
-void lerAtendimentos(fila_atendimento **lst_caixa, fila_atendimento **lst_mesa);
+void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final);
 
 void retirar_senha(fila_atendimento **lst);
 
