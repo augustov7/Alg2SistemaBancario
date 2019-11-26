@@ -13,12 +13,9 @@ int main(){
 	
 	char op, subop;
 
-	//fila_atendimento lista_de_prioridade[MAX_SIZE];
-
 	cliente *lst_clientes;
 	conta *lst_contas;
 	fila_atendimento *lst_caixa_inicio, *lst_caixa_final, *lst_mesa_inicio, *lst_mesa_final;
-	fila_atendimento *lst;
 
 	lst_clientes = NULL;
 	lst_contas = NULL;
@@ -47,6 +44,7 @@ int main(){
 					case '1':
 					
 					listar_cliente_cpf(lst_clientes);
+					pausa();
 
 					break;
 
@@ -54,6 +52,7 @@ int main(){
 					case '2': 
 
 					listar_cliente_nome(lst_clientes);
+					pausa();
 
 					break;
 
@@ -61,7 +60,7 @@ int main(){
 					case '3':
 
 					cadastrar_cliente(&lst_clientes);
-					system("PAUSE");
+					pausa();
 
 					break;
 
@@ -92,6 +91,7 @@ int main(){
 					case '2':		
 
 					pesquisar_numero_contas(lst_contas);
+					pausa();
 
 					break;
 
@@ -99,6 +99,7 @@ int main(){
 					case '3':		
 
 					cadastrar_conta(&lst_contas);
+					pausa();
 
 					break;
 					default:
@@ -125,6 +126,7 @@ int main(){
 					case '2':
 					
 					retirar_senha(&lst_caixa_inicio);
+					pausa();
 
 					break;
 
@@ -132,6 +134,7 @@ int main(){
 					case '3':
 
 					retirar_senha(&lst_mesa_inicio);
+					pausa();
 
 					break;
 
@@ -156,8 +159,6 @@ int main(){
 	remove("Fila.csv");
 	salvarFila(lst_caixa_inicio);
 	salvarFila(lst_mesa_inicio);
-
-	pausa();
 	
 	return 0;
 }

@@ -19,8 +19,7 @@ void gravarCliente(cliente *lst_cliente){
 			fprintf(ptArquivo, "%s;\n", lst_cliente->telefone);
 
 			lst_cliente = lst_cliente->prox;
-		}
-		
+		}		
 	}
 
 	fclose(ptArquivo);
@@ -154,6 +153,8 @@ int salvarFila(fila_atendimento *fila){
 
 void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_caixa_final, fila_atendimento **lst_mesa_inicio, fila_atendimento **lst_mesa_final){
 
+	fila_atendimento *novo_atendimento;
+
 	FILE *ptArquivo = fopen("Fila.csv", "r");
 
 	if (ptArquivo == NULL){
@@ -173,9 +174,9 @@ void lerAtendimentos(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst
 
 		while(fgets(linha,110,ptArquivo) != NULL){
 
-			lst = *lst_caixa_inicio;
+			lst = *lst_caixa_inicio;			
 
-			fila_atendimento *novo_atendimento = (fila_atendimento*) malloc(sizeof(fila_atendimento));
+			novo_atendimento = (fila_atendimento*) malloc(sizeof(fila_atendimento));
 
 			senha_str = strtok(linha,";");
 			diaStr = strtok(NULL,";");

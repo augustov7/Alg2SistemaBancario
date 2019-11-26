@@ -41,7 +41,7 @@ void registra_senha(fila_atendimento **lst_caixa_inicio, fila_atendimento **lst_
 		printf("\nInforme o NUMERO DA CONTA: ");
 		scanf(" %[^\n]",numero_conta);	
 
-		/* PARTE BONUS VERIFICA SE A IDADE É MAIOR QUE 65 E JÁ INSERE NA LISTA */
+		/* PARTE BONUS VERIFICA SE A IDADE É MAIOR QUE 65 E JÁ INSERE NA LISTA COMO PREFERENCIAL*/
 		if(obtem_idade(cpf_conta,lst_clientes) >= 65 ){
 
 			novo_atendimento->preferencial = 'S';
@@ -135,7 +135,7 @@ void inserir_senha(fila_atendimento **lista_inicio, fila_atendimento **lista_fin
 		imprimir_senha(novo_atendimento);
 
 	}else{
-		// N DE NÃO PREFERENCIAL
+		/* N DE NÃO PREFERENCIAL */
 		if(novo_atendimento->preferencial == 'n' || novo_atendimento->preferencial == 'N'){
 			
 			if (lst_final->preferencial == 'n' || lst_final->preferencial == 'N'){
@@ -249,7 +249,6 @@ void retirar_senha(fila_atendimento **lst){
 	if(aux == NULL){
 		limpar();
 		puts("FILA VAZIA");
-		pausa();
 	}else{
 
 		limpar();
@@ -258,7 +257,6 @@ void retirar_senha(fila_atendimento **lst){
 
 		*lst = aux->prox;
 		free(aux);
-		pausa();
 	}
 }
 

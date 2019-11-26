@@ -19,7 +19,7 @@ typedef struct cliente{
 	char endereco[30];
 	char bairro[30];
 	char cidade_estado[50];
-	char telefone[15];
+	char telefone[20];
 	struct cliente *prox;
 }cliente;
 

@@ -2,8 +2,6 @@
 
 void cadastrar_conta(conta **lista_contas){
 
-	limpar();
-	
 	char cpf_conta[15];
 	char Agencia_bancaria[10];
 	char tipo_conta[10];
@@ -11,6 +9,8 @@ void cadastrar_conta(conta **lista_contas){
 	char conta_preferencial;
 	double saldo;
 
+	limpar();
+	
 	printf("\nInforme o CPF:");
 	scanf(" %[^\n]",cpf_conta);
 	printf("\nInforme a AGENCIA BANCARIA:");
@@ -69,13 +69,16 @@ int inserir_conta(char cpf_conta[],char Agencia_bancaria[], char tipo_conta[], c
 
 void pesquisar_numero_contas(conta *lista_contas){
 
+	char numero_conta[15];
+
+	conta *lst;
+
 	limpar();
 
-	char numero_conta[15];
 	printf("Digite o Numero da Conta: ");
 	scanf(" %s", numero_conta);
 
-	conta *lst;
+	
 
 	lst = lista_contas;
 
@@ -99,19 +102,20 @@ void pesquisar_numero_contas(conta *lista_contas){
 
 	}
 
-	pausa();
-
 }
 
 void pesquisar_cpf_contas(conta *lst_contas, cliente *lst_clientes){
 
+	char cpf_conta[15];
+
+	conta *lst;
+
 	limpar();
 
-	char cpf_conta[15];
 	printf("Digite o CPF: ");
 	scanf(" %s", cpf_conta);
 
-	conta *lst;
+	
 
 	lst = lst_contas;
 
@@ -135,8 +139,6 @@ void pesquisar_cpf_contas(conta *lst_contas, cliente *lst_clientes){
 		lst = lst->prox;
 
 	}
-
-	pausa();
 }
 
 char pesquisar_cpf_preferencial(conta *lst_contas, char cpf_conta[], char numero_conta[]){
@@ -156,10 +158,6 @@ char pesquisar_cpf_preferencial(conta *lst_contas, char cpf_conta[], char numero
 
 	}
 
-	
 	return 'R';	
 	
-	
 }
-
-

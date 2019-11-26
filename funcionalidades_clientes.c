@@ -2,8 +2,6 @@
 
 void cadastrar_cliente(cliente **lista_clientes){
 
-	limpar();
-
 	char nome[50];
 	char cpf_usuario[15];
 	char data_nascimento[20];
@@ -11,6 +9,8 @@ void cadastrar_cliente(cliente **lista_clientes){
 	char bairro[30];
 	char cidade_estado[50];
 	char telefone[15];
+
+	limpar();
 
 	printf("\nInforme o NOME:");
 	scanf(" %[^\n]",nome);
@@ -28,12 +28,12 @@ void cadastrar_cliente(cliente **lista_clientes){
 	scanf(" %[^\n]", telefone);
 
 
-	if(inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,lista_clientes) == 1){
+	if(inserir_cliente(nome,cpf_usuario, data_nascimento, endereco, bairro, cidade_estado, telefone,lista_clientes) != -1){
 		limpar();
 		printf("CADASTRADO !!!\n");
 	}else{
 		limpar();
-		printf("CADASTRADO !!!\n");
+		printf("NAO CADASTRADO !!!\n");
 	}
 
 
@@ -83,13 +83,14 @@ void listar_clientes(cliente *lista_clientes){
 
 void listar_cliente_cpf(cliente *lst_clientes){
 
-	limpar();
+	char cpf_usuario[15];
 
 	cliente *lst;
 
 	lst = lst_clientes;
 
-	char cpf_usuario[15];
+	limpar();
+
 	printf("Digite o CPF do Cliente: ");
 	scanf(" %s", cpf_usuario);
 
@@ -111,20 +112,19 @@ void listar_cliente_cpf(cliente *lst_clientes){
 
 		lst = lst->prox;
 	}
-
-	system("PAUSE");
-
 }
 
 void listar_cliente_nome(cliente *lst_clientes){
 
-	limpar();
+	char nome[50];
 
 	cliente *lst;
 
 	lst = lst_clientes;
 
-	char nome[50];
+	limpar();
+
+	
 	printf("Digite o NOME do Cliente: ");
 	scanf(" %s", nome);
 
@@ -145,9 +145,6 @@ void listar_cliente_nome(cliente *lst_clientes){
 
 		lst = lst->prox;
 	}
-
-	system("PAUSE");
-
 }
 
 char* nome_cliente_cpf(char *cpf_usuario, cliente *lst_clientes){
@@ -232,5 +229,4 @@ int retorna_idade(data_t data01, data_t data02){
 	}
 
 	return idade;
-
 }
