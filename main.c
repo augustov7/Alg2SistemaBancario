@@ -1,14 +1,5 @@
 #include "menu.h"
 
-/* 
-CD C:\Users\Augusto\Desktop\Trab\Alg2SistemaBancario
-
-gcc *.c -o trab.exe -pedantic -Wall
-
-gcc -o executavel main.c menu.c getch.c funcionalidade.c funcionalidades_clientes.c funcionalidades_conta.c funcionalidades_senha.c ioArquivos.c -Wall -pedantic
-
-*/
-
 int main(){
 	
 	char op, subop;
